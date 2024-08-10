@@ -1,0 +1,315 @@
+@keyframes gradientAnimation {
+    0% {
+        background-position: 0% 0%;
+    }
+    50% {
+        background-position: 100% 100%;
+    }
+    100% {
+        background-position: 0% 0%;
+    }
+}
+
+body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #036801, #1ba802, #6f01c4, #54015d, #01c829, #6e02c1);
+    background-size: 200% 200%;
+    animation: gradientAnimation 30s ease infinite;
+    color: #ffffff;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 150vh;
+    text-align: center;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 5px;
+    margin-top: -15vh;
+}
+
+input[type="range"] {
+    width: 80%;
+    margin: 10px 0;
+}
+
+input[type="button"], button {
+    display: block;
+    margin: 10px auto;
+    padding: 10px 20px;
+    background-color: #8f00ff;
+    border: none;
+    color: #fff;
+    cursor: pointer;
+    font-size: 16px;
+    border-radius: 5px;
+}
+
+input[type="button"]:hover, button:hover {
+    background-color: #33cc12;
+}
+
+.app-title {
+    font-size: 32px;
+    color: #39ff14;
+    margin: 20px 0;
+    margin-bottom: 10px;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+    font-family: 'Roboto Mono', monospace;
+}
+
+.button {
+    font-size: 16px;
+}
+
+.fitgotchi-stats {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    max-width: 100%;
+    margin-bottom: 20px;
+}
+
+.fitgotchi-stats label {
+    margin: 5px 0;
+    font-size: 16px;
+    color: #09ff00;
+}
+
+.fitgotchi-stats input {
+    width: 80%;
+    max-width: 300px;
+    padding: 5px;
+    margin: 5px 0;
+    border: none;
+    border-radius: 5px;
+    text-align: center;
+}
+
+.metric {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    margin: 10px 0;
+}
+
+.metric label {
+    font-size: 16px;
+    color: #00ff33;
+    margin-bottom: 5px;
+}
+
+progress {
+    width: 100%;
+    height: 20px;
+    appearance: none;
+    position: relative;
+}
+
+progress::-webkit-progress-bar {
+    background-color: #555;
+    border-radius: 10px;
+}
+
+progress::-webkit-progress-value {
+    background: linear-gradient(145deg, #39ff14, #8f00ff);
+    border-radius: 10px;
+}
+
+progress::after {
+    content: attr(value) "%";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #ffffff;
+    font-size: 14px;
+    font-weight: bold;
+    pointer-events: none; 
+    z-index: 1; 
+}
+
+#serial-number {
+    font-size: 18px;
+    color: #39ff14;
+    margin-top: 0px;
+    text-align: center;
+    width: 100%;
+}
+
+#fitgotchi-name {
+    font-size: 18px;
+    padding: 5px;
+    border: none;
+    border-radius: 5px;
+    margin-top: 5px;
+    margin-bottom: 10px;
+    width: 80%;
+    max-width: 300px;
+    background-color: #282c34;
+    color: #ffffff;
+    text-align: center;
+}
+
+.fitgotchi {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#fitgotchi-image {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    background: linear-gradient(145deg, #39ff14, #8f00ff);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    margin-bottom: 10px;
+    border: 5px solid #39ff14;
+}
+
+.nav-bar {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    background-color: #282c34;
+    padding: 10px 0;
+}
+
+.nav-bar button {
+    background-color: transparent;
+    border: none;
+    color: #ffffff;
+    font-size: 18px;
+    cursor: pointer;
+}
+
+.nav-bar button:hover {
+    color: #39ff14;
+}
+
+.nav-bar button:focus {
+    outline: none;
+    color: #8f00ff;
+}
+
+#sleep-button {
+    background-color: #282c34;
+    border: 2px solid #8f00ff;
+    color: #ffffff;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    margin: 10px;
+    margin-top: 20px;
+    border-radius: 5px;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+#sleep-button:hover {
+    background-color: #8f00ff;
+    color: #ffffff;
+}
+
+#sleep-button:focus {
+    outline: none;
+    background-color: #8f00ff;
+    color: #ffffff;
+}
+
+.actions {
+    margin-top: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.actions button {
+    background-color: #282c34;
+    border: 2px solid #39ff14;
+    color: #ffffff;
+    padding: 10px 20px;
+    font-size: 20px;
+    cursor: pointer;
+    margin: 5px;
+    border-radius: 5px;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.actions button:hover {
+    background-color: #39ff14;
+    color: #000000;
+}
+
+.actions #freework-button {
+    background-color: #282c34;
+    border: 2px solid #39ff14;
+    color: #ffffff;
+    padding: 10px 20px;
+    font-size: 1.5vh;
+    cursor: pointer;
+    margin: 5px;
+    border-radius: 5px;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.actions #freework-button:hover {
+    background-color: #39ff14;
+    color: #000000;
+}
+
+@media (max-width: 768px) {
+    #fitgotchi-image {
+        width: 120px;
+        margin-top: 10px;
+        height: 120px;
+    }
+
+    .nav-bar button {
+        font-size: 16px;
+    }
+
+    .actions button {
+        font-size: 24px;
+        padding: 8px 16px;
+    }
+
+    #fitgotchi-name {
+        font-size: 16px;
+        padding: 4px;
+        margin-bottom: 10px;
+    }
+}
+
+@media (max-width: 480px) {
+    #fitgotchi-image {
+        width: 100px;
+        height: 100px;
+    }
+
+    .nav-bar button {
+        font-size: 14px;
+    }
+
+    .actions button {
+        font-size: 12px;
+        padding: 6px 12px;
+    }
+
+    #fitgotchi-name {
+        font-size: 14px;
+        padding: 3px;
+    }
+}

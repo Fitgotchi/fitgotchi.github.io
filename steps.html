@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="steps.css">
+    <title>FitGotchi - Contador de Pasos</title>
+</head>
+<body>
+    <div class="container">
+        <h1>Contador de Pasos</h1>
+        <div class="step-counter">
+            <p>Pasos actuales: <span id="step-count">0</span></p>
+            <p>Distancia recorrida: <span id="distance">0.00</span> km</p>
+            <p>Calorías quemadas: <span id="calories">0</span> kcal</p>
+            <p>Meta diaria: <span id="daily-goal">10000</span> pasos</p>
+            <progress id="progress-bar" value="0" max="100"></progress>
+            <p>Tiempo de actividad: <span id="time-elapsed">00:00:00</span></p>
+        </div>
+        <div class="button-container">
+            <button class="start" onclick="startStepCounter()">Iniciar Contador</button>
+            <button class="pause" onclick="pauseStepCounter()">Pausar Contador</button>
+            <button class="stop" onclick="stopStepCounter()">Finalizar Contador</button>
+        </div>
+        
+        <canvas id="stepChart" width="400" height="200"></canvas>
+        <div class="nav-bar">
+            <button onclick="navigateTo('index')">Home</button>
+            <button onclick="navigateTo('exercise')">Ejercicio</button>
+            <button onclick="navigateTo('store')">Tienda</button>
+        </div>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="steps.js"></script>
+</body>
+</html>

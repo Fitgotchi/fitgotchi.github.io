@@ -1,0 +1,18 @@
+{
+    "name": "Nombre del FitGotchi",
+    "password": "contraseña-encriptada",
+    "serial": "SN-XXXXXXX",
+    "stats": {
+        "level": 0,
+        "experience": 0,
+        "speed": 0,
+        "cardio": 0,
+        "endurance": 0,
+        "strength": 0,
+        "energy": 100,
+        "hunger": 50,
+        "sleep": 80
+    },
+    "tokens": 120,
+    "gems": 5
+}

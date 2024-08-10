@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="freework.css">
+    <title>FitGotchi - Entrenamiento Libre</title>
+</head>
+<body>
+    <div class="container">
+        <h1>Entrenamiento Libre</h1>
+        <div class="routine-builder">
+            <h2>Crear Rutina de Ejercicio</h2>
+            
+            <label for="exercise-name-select">Nombre del Ejercicio:</label>
+            <select id="exercise-name-select">
+                <option value="warm-up">Calentamiento</option>
+                <option value="cardio">Cardio</option>
+                <option value="strength">Fuerza</option>
+                <option value="stretching">Estiramiento</option>
+                <option value="custom">Personalizado</option>
+            </select>
+            
+            <div id="custom-exercise-container" style="display: none;">
+                <label for="exercise-name">Nombre del Ejercicio Personalizado:</label>
+                <input type="text" id="exercise-name" placeholder="Ej: Mi Ejercicio" />
+            </div>
+            
+            <label for="exercise-intensity">Intensidad:</label>
+            <select id="exercise-intensity">
+                <option value="relaxed">Relajado</option>
+                <option value="intense">Intenso</option>
+                <option value="full">Full Work</option>
+            </select>
+
+            <label for="exercise-duration">Duración (minutos):</label>
+            <input type="number" id="exercise-duration" min="1" placeholder="Ej: 5" />
+            
+            <button id="add-exercise-button">Agregar Ejercicio</button>
+        </div>
+        <div class="routine-list">
+            <h3>Rutina:</h3>
+            <ul id="routine-steps"></ul>
+        </div>
+        <div class="timer-container">
+            <p id="time-display">00:00:00</p>
+            <div class="progress-bar-container">
+                <div class="circular-progress" id="progress-bar"></div>
+            </div>
+            <button id="start-routine-button">Iniciar Rutina</button>
+            <button id="reset-button">Reiniciar</button>
+            <button id="finish-button">Finalizar</button>
+        </div>
+        <div class="rewards">
+            <h2>Recompensas</h2>
+            <p id="experience-earned">Experiencia ganada: 0</p>
+            <p id="coins-earned">Monedas ganadas: 0</p>
+            <p id="calories-burned">Calorías quemadas: 0</p>
+        </div>
+        <div class="particle-animation" id="particle-animation"></div>
+        <div class="workout-graphic" id="workout-graphic"></div>
+    </div>
+    <div class="nav-bar">
+        <button onclick="navigateTo('index')">Home</button>
+        <button onclick="navigateTo('exercise')">Ejercicio</button>
+        <button onclick="navigateTo('store')">Tienda</button>
+        
+    </div>
+    <script src="freework.js"></script>
+</body>
+</html>

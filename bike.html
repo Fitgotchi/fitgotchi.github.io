@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bike Tracker</title>
+    <link rel="stylesheet" href="bike.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Bike Tracker</h1>
+        <div class="settings">
+            <label for="ride-type">Tipo de Paseo:</label>
+            <select id="ride-type">
+                <option value="free">Paseo Libre</option>
+                <option value="training-5k">Entrenamiento 5K</option>
+                <option value="training-10k">Entrenamiento 10K</option>
+            </select>
+        </div>
+        <div class="time">
+            <h2>Tiempo</h2>
+            <div id="timer">00:00</div>
+        </div>
+        <div class="controls">
+            <button id="start">Iniciar 🚴</button>
+            <button id="pause-resume" disabled>Pausar ⏸️</button>
+            <button id="stop" disabled>Detener 🛑</button>
+        </div>
+        <div class="progress">
+            <h2>Distancia</h2>
+            <div id="progress-bar">
+                <div class="progress-fill"></div>
+            </div>
+            <p id="distance">0 km</p>
+        </div>
+        <div class="nav-bar">
+            <button onclick="navigateTo('index')">Home</button>
+            <button onclick="navigateTo('exercise')">Ejercicio</button>
+            <button onclick="navigateTo('store')">Tienda</button>
+        </div>
+    </div>
+    <script src="bike.js"></script>
+</body>
+</html>

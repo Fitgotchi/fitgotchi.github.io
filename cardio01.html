@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="cardio01.css">
+    <title>FitGotchi - Cardio</title>
+</head>
+<body>
+    <div class="container">
+        <h1>Cardio</h1>
+        <p>Inicia tu rutina de cardio para mejorar tu resistencia cardiovascular.</p>
+        <div class="instructions">
+            <h2>Instrucciones</h2>
+            <p id="instruction-display">¡Prepárate para comenzar! 🏃‍♂️</p>
+        </div>
+        <div class="timer-container">
+            <div class="circular-progress" id="circular-progress"></div>
+            <p id="time-display">05:00</p>
+            <button id="start-stop-button">Iniciar</button>
+            <button id="reset-button">Reiniciar</button>
+            <button id="end-button">Finalizar</button>
+        </div>
+        
+        <div class="rewards">
+            <h2>Recompensas</h2>
+            <p id="experience-earned">Experiencia ganada: 0</p>
+            <p id="coins-earned">Monedas ganadas: 0</p>
+            <p id="calories-burned">Calorías quemadas: 0</p>
+        </div>
+        
+        <div class="nav-bar">
+            <button onclick="navigateTo('index')">Home</button>
+            <button onclick="navigateTo('exercise')">Ejercicio</button>
+            <button onclick="navigateTo('store')">Tienda</button>
+            <button onclick="navigateTo('history')">Historial</button>
+        </div>
+    </div>
+    <script src="cardio01.js"></script>
+</body>
+</html>

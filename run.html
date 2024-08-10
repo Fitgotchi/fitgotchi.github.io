@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="run.css">
+    <title>FitGotchi - Running</title>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Ejercicio de Correr 🏃‍♂️</h1>
+        </header>
+        
+        <section class="settings">
+            <label for="intensity">Intensidad: </label>
+            <select id="intensity">
+                <option value="low">Baja 🐢</option>
+                <option value="medium">Media 🏃</option>
+                <option value="high">Alta 🏃‍♂️</option>
+            </select>
+        </section>
+        
+        <section class="time">
+            <label for="duration">Duración (min): </label>
+            <select id="duration">
+                <option value="free">Libre</option>
+                <option value="15">15 minutos</option>
+                <option value="30">30 minutos</option>
+                <option value="60">60 minutos</option>
+            </select>
+        </section>
+        
+        <section class="controls">
+            <button id="start">Comenzar 🏁</button>
+            <button id="pause" disabled>Pausar ⏸️</button>
+            <button id="stop" disabled>Detener 🛑</button>
+        </section>
+        
+        <section class="progress">
+            <p>Cronómetro: <span id="timer">00:00</span> ⏱️</p>
+            <div id="progress-bar">
+                <div class="progress-fill"></div>
+            </div>
+            <p>Distancia: <span id="distance">0</span> km 📏</p>
+            <p>Velocidad: <span id="speed">0</span> km/h 🏎️</p>
+        </section>
+        
+        <section class="rewards">
+            <p>Recompensas: </p>
+            <ul>
+                <li>Cardio: <span id="cardio-reward">0</span> 🏋️</li>
+                <li>Resistencia: <span id="resistance-reward">0</span> 💪</li>
+                <li>Velocidad: <span id="speed-reward">0</span> 🚀</li>
+                <li>Fuerza: <span id="strength-reward">0</span> 🦾</li>
+            </ul>
+        </section>
+        
+        <div class="nav-bar">
+            <button onclick="navigateTo('index')">Home</button>
+            <button onclick="navigateTo('exercise')">Ejercicio</button>
+            <button onclick="navigateTo('store')">Tienda</button>
+        </div>
+    </div>
+    <script src="run.js"></script>
+</body>
+</html>

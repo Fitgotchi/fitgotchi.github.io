@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="exercise.css">
+    <title>FitGotchi - Ejercicio</title>
+</head>
+<body>
+    <div class="container">
+        <h1>Rutinas de Ejercicio</h1>
+        <div class="exercise-cards">
+            <div class="card">
+                <h2>Cardio</h2>
+                <p>Mejora tu resistencia cardiovascular con estas rutinas de cardio.</p>
+                <button onclick="startExercise('cardio')">Comenzar</button>
+            </div>
+            <div class="card">
+                <h2>Resistencia</h2>
+                <p>Aumenta tu resistencia con ejercicios específicos para esta habilidad.</p>
+                <button onclick="startExercise('resistance')">Comenzar</button>
+            </div>
+            <div class="card">
+                <h2>Fuerza</h2>
+                <p>Fortalece tus músculos con rutinas de fuerza intensas.</p>
+                <button onclick="startExercise('strength')">Comenzar</button>
+            </div>
+            <div class="card">
+                <h2>Velocidad</h2>
+                <p>Mejora tu velocidad con ejercicios especializados.</p>
+                <button onclick="startExercise('speed')">Comenzar</button>
+            </div>
+            
+            <div class="card">
+                <h2>Running</h2>
+                <p>Ponte en forma con nuestras rutinas de running adaptadas a todos los niveles.</p>
+                <button onclick="navigateTo('run')">Comenzar</button>
+            </div>
+            <div class="card">
+                <h2>Bicicleta</h2>
+                <p>Explora diferentes rutas y mejora tu condición física con ejercicios de bicicleta.</p>
+                <button onclick="navigateTo('bike')">Comenzar</button>
+            </div>
+            <div class="card card-special">
+                <h2>Entrenamiento Libre</h2>
+                <p>Personaliza tu entrenamiento con sesiones de ejercicio libre.</p>
+                <button onclick="navigateTo('freework')">Comenzar</button>
+            </div>
+            <div class="card">
+                <h2>Contador de Pasos</h2>
+                <p>Haz seguimiento de tus pasos diarios y mejora tu salud caminando.</p>
+                <button onclick="navigateTo('steps')">Comenzar</button>
+            </div>
+        </div>
+        <div class="nav-bar">
+            <button onclick="navigateTo('index')">Home</button>
+            <button onclick="navigateTo('exercise')">Ejercicio</button>
+            <button onclick="navigateTo('store')">Tienda</button>
+        </div>
+    </div>
+    <script src="exercise.js"></script>
+</body>
+</html>

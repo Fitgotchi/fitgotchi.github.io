@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="fitgotchi.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&display=swap">
+    <title>FitGotchi - Home</title>
+</head>
+<body>
+    <div class="container">
+        <h1 class="app-title">FitGotchi</h1>
+        <div class="fitgotchi-stats">
+            <label for="level">Nivel:</label>
+            <progress id="level" class="progress-bar" value="0" max="100"></progress>
+            <label for="experience">Experiencia:</label>
+            <progress id="experience" class="progress-bar" value="0" max="100"></progress>
+            <label for="speed">Velocidad:</label>
+            <input type="number" id="speed" value="0" readonly>
+            <label for="cardio">Cardio:</label>
+            <input type="number" id="cardio" value="0" readonly>
+            <label for="endurance">Resistencia:</label>
+            <input type="number" id="endurance" value="0" readonly>
+            <label for="strength">Fuerza:</label>
+            <input type="number" id="strength" value="0" readonly>
+        </div>
+        <img id="fitgotchi-image" src="fitgotchi.png" alt="">
+        <input type="text" id="fitgotchi-name" placeholder="Nombre de tu FitGotchi" onchange="updateName()">
+        <span id="serial-number"></span>
+        <input type="button" value="Crear Nuevo Usuario" onclick="createNewUser()">
+        <input type="button" value="Cargar Usuario Existente" onclick="loadUser()">
+        
+        <div class="metrics">
+            <div class="metric">
+                <label for="energy">Energía:</label>
+                <progress id="energy" value="100" max="100"></progress>
+            </div>
+            <div class="metric">
+                <label for="hunger">Hambre:</label>
+                <progress id="hunger" value="50" max="100"></progress>
+            </div>
+            <div class="metric">
+                <label for="sleep">Sueño:</label>
+                <progress id="sleep" value="80" max="100"></progress>
+            </div>
+            <button id="sleep-button">Registrar Sueño</button>
+        </div>
+    </div>
+    <div class="actions">
+        <button id="feed-button">Alimentar</button>
+        <button id="play-button">Ejercitarse</button>
+    </div>
+    <div class="actions">
+        <button id="training-free-button" onclick="navigateTo('freework')">Entrenamiento Libre</button>
+        <button id="pose-button" onclick="navigateTo('pose')">Ejercicio con Poses</button>
+        <button id="history-button" onclick="navigateTo('history')">Historial</button>
+    </div>
+    <div class="nav-bar">
+        <button onclick="navigateTo('index')">Home</button>
+        <button onclick="navigateTo('exercise')">Ejercicio</button>
+        <button onclick="navigateTo('store')">Tienda</button>
+    </div>
+    <script src="server.js"></script>
+    <script src="fitgotchi.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

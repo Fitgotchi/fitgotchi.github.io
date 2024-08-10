@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="feed.css">
+    <link rel="stylesheet" href="fitgotchi.css">
+    <title>FitGotchi - Alimentar a FitGotchi</title>
+</head>
+<body>
+    <div class="container">
+        <div class="feed-section">
+            <h2>Alimentar a FitGotchi</h2>
+            </div>
+            <img id="fitgotchi-image" src="fitgotchi.png" alt="">
+            <input type="text" id="fitgotchi-name" placeholder="Nombre de tu FitGotchi" onchange="updateName()">
+            <p id="fitgotchi-hunger">Hambre: 50</p>
+            <div class="food-selection">
+                <label for="food-select">Selecciona un alimento:</label>
+                <select id="food-select" onchange="updateFoodInfo()">
+                    <option value="apple" data-calories="50" data-price="10">Manzana</option>
+                    <option value="carrot" data-calories="30" data-price="5">Zanahoria</option>
+                    <!-- Agrega más opciones según los alimentos disponibles -->
+                </select>
+                <p id="food-info">Calorías: 50</p>
+            </div>
+            <button id="feed-button" onclick="feedFitGotchi()">Alimentar</button>
+            <button id="buy-button" onclick="buyFood()">Comprar</button>
+            <div class="fitgotchi-status">
+                <p id="energy-status">Energía: 100%</p>
+                <p id="tokens-status">Tokens: 100</p>
+            </div>
+            <div class="feed-history">
+                <h3>Historial de Alimentación</h3>
+                <ul id="feed-history-list">
+                    <!-- Aquí se listarán las entradas del historial -->
+                </ul>
+            </div>
+            <div class="inventory-section">
+                <h3>Inventario</h3>
+                <ul id="inventory-list">
+                    <!-- Aquí se listarán los alimentos en el inventario -->
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="nav-bar">
+        <button onclick="navigateTo('index')">Home</button>
+        <button onclick="navigateTo('exercise')">Ejercicio</button>
+        <button onclick="navigateTo('store')">Tienda</button>
+    </div>
+    <script src="fitgotchi.js"></script>
+    <script src="feed.js"></script>
+</body>
+</html>

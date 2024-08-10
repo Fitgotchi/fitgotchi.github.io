@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sesión Cardio 2 - FitGotchi</title>
+    <link rel="stylesheet" href="cardio02.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Bienvenido a tu sesión de entrenamiento</h1>
+        </header>
+        <section id="session-info">
+            <div id="instructions">
+                <p id="instruction-text">Prepárate para comenzar 💪</p>
+            </div>
+            <div id="fitgotchi-container">
+                <img id="fitgotchi-image" src="fitgotchi.png" alt="">
+                <div id="fitgotchi-info" class="hidden">
+                    <p>Nombre: FitGotchi</p>
+                    <p>Estado: Saludable</p>
+                    <p>Calorías: 1200</p>
+                    <!-- Agregar más estadísticas si es necesario -->
+                </div>
+            </div>
+            <div id="controls">
+                <div id="time-display">00:00</div>
+                <button id="start-button">Iniciar Sesión</button>
+                <button id="pause-button" disabled>Pausar</button>
+                <button id="end-button" disabled>Terminar</button>
+            </div>
+        </section>
+        <section id="soundcloud-player" class="track">
+            <iframe width="100%" height="300" scrolling="no" frameborder="no" allow="autoplay" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/playlists/1857377337&color=%2313ef4f&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true"></iframe>
+            <div style="font-size: 10px; color: #cccccc; line-break: anywhere; word-break: normal; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; font-family: Interstate, Lucida Grande, Lucida Sans Unicode, Lucida Sans, Garuda, Verdana, Tahoma, sans-serif; font-weight: 100;">
+                <a href="https://soundcloud.com/fitgotchi" title="Fitgotchi" target="_blank" style="color: #cccccc; text-decoration: none;">Fitgotchi</a> ·
+                <a href="https://soundcloud.com/fitgotchi/sets/cardio-playlist" title="Cardio - Mid - FitGotchi Playlist 🫀" target="_blank" style="color: #cccccc; text-decoration: none;">Cardio - Mid - FitGotchi Playlist 🫀</a>
+            </div>
+            <button id="next-button" disabled>Siguiente Canción</button>
+        </section>
+        <section id="exercise-guide">
+            <h2>Guía de Ejercicios</h2>
+            <ul>
+                <li>Calentamiento: Marcha en el lugar 🚶‍♂️</li>
+                <li>Saltos de tijera 🤸‍♂️</li>
+                <li>Sentadillas 🏋️‍♂️</li>
+                <!-- Agregar más ejercicios si es necesario -->
+            </ul>
+        </section>
+    </div>
+    <nav class="nav-bar">
+        <button onclick="navigateTo('index')">Home</button>
+        <button onclick="navigateTo('exercise')">Ejercicio</button>
+        <button onclick="navigateTo('store')">Tienda</button>
+    </nav>
+    <script src="cardio02.js"></script>
+</body>
+</html>

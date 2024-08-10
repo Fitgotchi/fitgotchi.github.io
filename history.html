@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="history.css">
+    <title>FitGotchi - Historial</title>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Historial de Actividades</h1>
+        </header>
+        <main>
+            <div class="summary">
+                <p>Horas de ejercicio esta semana: <span id="total-hours">0</span></p>
+                <p>Kilómetros corridos: <span id="total-kilometers">0</span></p>
+                <p>Pasos dados: <span id="total-steps">0</span></p>
+            </div>
+            <div id="history-list" class="history-list">
+                <!-- Aquí se cargarán las actividades -->
+            </div>
+        </main>
+        <div class="nav-bar">
+            <button onclick="navigateTo('index')">Home</button>
+            <button onclick="navigateTo('exercise')">Ejercicio</button>
+            <button onclick="navigateTo('store')">Tienda</button>
+            <button onclick="navigateTo('history')">Historial</button>
+        </div>
+    </div>
+    <script src="history.js"></script>
+</body>
+</html>

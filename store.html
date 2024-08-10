@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="store.css">
+    <title>FitGotchi - Tienda</title>
+</head>
+<body>
+    <div class="container">
+        <h1>Tienda</h1>
+        <div id="coins-display">Monedas: 100</div>
+        <div class="store-items">
+            <div class="item">
+                <h2>Comida</h2>
+                <p>Incrementa la energía de tu FitGotchi.</p>
+                <button onclick="buyItem('comida')">Comprar - 10 Monedas</button>
+            </div>
+            <div class="item">
+                <h2>Juguetes</h2>
+                <p>Incrementa la felicidad de tu FitGotchi.</p>
+                <button onclick="buyItem('juguetes')">Comprar - 20 Monedas</button>
+            </div>
+            <div class="item">
+                <h2>Accesorios</h2>
+                <p>Personaliza tu FitGotchi.</p>
+                <button onclick="buyItem('accesorios')">Comprar - 30 Monedas</button>
+            </div>
+        </div>
+    </div>
+    <div class="nav-bar">
+        <button onclick="navigateTo('index')">Home</button>
+        <button onclick="navigateTo('exercise')">Ejercicio</button>
+        <button onclick="navigateTo('store')">Tienda</button>
+    </div>
+    <script src="store.js"></script>
+</body>
+</html>

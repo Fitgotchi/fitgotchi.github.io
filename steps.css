@@ -1,0 +1,152 @@
+@keyframes gradientAnimation {
+    0% {
+        background-position: 0% 0%;
+    }
+    50% {
+        background-position: 100% 100%;
+    }
+    100% {
+        background-position: 0% 0%;
+    }
+}
+
+body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #036801, #1ba802, #6f01c4, #54015d, #01c829, #6e02c1);
+    background-size: 200% 200%;
+    animation: gradientAnimation 30s ease infinite;
+    color: #ffffff;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100vh;
+    text-align: center;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    max-width: 800px;
+    padding: 20px;
+    box-sizing: border-box;
+    margin-top: 20px;
+}
+
+h1 {
+    color: #39ff14;
+    margin-bottom: 20px;
+    font-size: 2.5rem;
+}
+
+.step-counter {
+    background-color: rgba(40, 44, 52, 0.8);
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 20px;
+    width: 100%;
+    max-width: 500px;
+    text-align: center;
+}
+
+.step-counter p {
+    font-size: 1.2rem;
+    color: #ffffff;
+}
+
+/* Estilos para los botones */
+.button-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px; /* Espacio entre los botones */
+    margin-bottom: 20px; /* Espacio debajo de los botones */
+}
+
+button {
+    background-color: #39ff14;
+    border: none;
+    border-radius: 8px;
+    padding: 12px 24px; /* Tamaño del botón */
+    font-size: 1.2rem;
+    color: #000000;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.3s;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); /* Sombra del botón */
+}
+
+button:hover {
+    background-color: #8f00ff;
+    transform: translateY(-3px);
+}
+
+button:active {
+    background-color: #6a0d91;
+    transform: translateY(1px); /* Efecto al presionar */
+}
+
+button:focus {
+    outline: none;
+}
+
+button.start {
+    background-color: #39ff14;
+}
+
+button.pause {
+    background-color: #ffcc00;
+}
+
+button.stop {
+    background-color: #ff4d4d;
+}
+
+button.start:hover {
+    background-color: #8f00ff;
+}
+
+button.pause:hover {
+    background-color: #e5b800;
+}
+
+button.stop:hover {
+    background-color: #ff1a1a;
+}
+
+
+.nav-bar {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    background-color: rgba(40, 44, 52, 0.9);
+    padding: 10px 0;
+    border-top: 2px solid #39ff14;
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.5);
+}
+
+.nav-bar button {
+    background-color: transparent;
+    border: none;
+    color: #ffffff;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: color 0.3s, transform 0.3s;
+}
+
+.nav-bar button:hover {
+    color: #39ff14;
+    transform: scale(1.1);
+}
+
+.nav-bar button:focus {
+    outline: none;
+    color: #8f00ff;
+}

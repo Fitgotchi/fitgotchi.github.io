@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FitGotchi - Ejercicio con Poses</title>
+    <link rel="stylesheet" href="pose.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Ejercicio con Poses</h1>
+        <div class="video-container">
+            <video id="video" playsinline autoplay muted></video>
+            <canvas id="output"></canvas>
+        </div>
+        <div class="instructions">
+            <p id="pose-instruction">Instrucción: Abre los brazos</p>
+            <p id="pose-status">Estado: Esperando...</p>
+        </div>
+        <div class="timer">
+            <p id="time-display">00:00:00</p>
+            <button id="start-stop-button">Iniciar Ejercicio</button>
+            <button id="reset-button">Reiniciar</button>
+        </div>
+        <div class="rewards">
+            <h2>Recompensas</h2>
+            <p id="experience-earned">Experiencia ganada: 0</p>
+            <p id="coins-earned">Monedas ganadas: 0</p>
+            <p id="calories-burned">Calorías quemadas: 0</p>
+        </div>
+    </div>
+    <div class="nav-bar">
+        <button onclick="navigateTo('index')">Home</button>
+        <button onclick="navigateTo('exercise')">Ejercicio</button>
+        <button onclick="navigateTo('store')">Tienda</button>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/posenet"></script>
+    <script src="pose.js"></script>
+</body>
+</html>
