@@ -22,8 +22,7 @@ body {
     color: #ffffff;
     margin: 0;
     padding: 0;
-    width: 100%;
-    height: 100vh;
+    height: 120vh;
     text-align: center;
 }
 
@@ -32,11 +31,10 @@ body {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    width: 100%;
-    max-width: 800px;
     padding: 20px;
     box-sizing: border-box;
     margin-top: 20px;
+    width: 90%;
 }
 
 h1 {
@@ -60,25 +58,24 @@ h1 {
     color: #ffffff;
 }
 
-/* Estilos para los botones */
 .button-container {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 10px; /* Espacio entre los botones */
-    margin-bottom: 20px; /* Espacio debajo de los botones */
+    gap: 10px; 
+    margin-bottom: 20px;
 }
 
 button {
-    background-color: #39ff14;
+    background-color: #37ff14e1;
     border: none;
     border-radius: 8px;
-    padding: 12px 24px; /* Tamaño del botón */
+    padding: 12px 24px; 
     font-size: 1.2rem;
-    color: #000000;
+    color: #ffffff;
     cursor: pointer;
     transition: background-color 0.3s, transform 0.3s;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); /* Sombra del botón */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
 }
 
 button:hover {
@@ -96,15 +93,15 @@ button:focus {
 }
 
 button.start {
-    background-color: #39ff14;
+    background-color: #1dc200e1;
 }
 
 button.pause {
-    background-color: #ffcc00;
+    background-color: #0066ffe2;
 }
 
 button.stop {
-    background-color: #ff4d4d;
+    background-color: #fc2828d8;
 }
 
 button.start:hover {

@@ -201,3 +201,4 @@ function updateSleepDaily() {
 document.getElementById('sleep-button').addEventListener('click', updateSleep);
 document.getElementById('feed-button').addEventListener('click', feedFitGotchi);
 document.getElementById('play-button').addEventListener('click', exerciseFitGotchi);
+document.getElementById('exercise-button').addEventListener('click', exerciseFitGotchi);

@@ -1,14 +1,28 @@
+@keyframes gradientAnimation {
+    0% {
+        background-position: 0% 0%;
+    }
+    50% {
+        background-position: 100% 100%;
+    }
+    100% {
+        background-position: 0% 0%;
+    }
+}
+
 body {
     font-family: Arial, sans-serif;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    background-color: #000000;
+    background: linear-gradient(135deg, #036801, #1ba802, #6f01c4, #54015d, #01c829, #6e02c1);
+    background-size: 200% 200%;
+    animation: gradientAnimation 30s ease infinite;
     color: #ffffff;
     margin: 0;
     padding: 0;
-    height: 110vh;
+    height: 120vh;
     text-align: center;
 }
 
@@ -17,8 +31,7 @@ body {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    min-height: 100vh;
-    width: 100%;
+    
     padding: 20px;
     box-sizing: border-box;
 }
@@ -27,7 +40,7 @@ h1 {
     margin-bottom: 20px;
     color: #39ff14;
     font-size: 2em;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4);
 }
 
 .settings, .time, .controls, .progress, .rewards {
@@ -120,16 +133,14 @@ button:hover:enabled {
     justify-content: space-around;
     background-color: #282c34;
     padding: 10px 0;
-    box-sizing: border-box;
 }
 
 .nav-bar button {
     background-color: transparent;
     border: none;
     color: #ffffff;
-    font-size: 18px;
+    font-size: 16px;
     cursor: pointer;
-    transition: color 0.3s;
 }
 
 .nav-bar button:hover {

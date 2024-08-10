@@ -22,8 +22,8 @@ body {
     color: #ffffff;
     margin: 0;
     padding: 0;
-    width: 100%;
-    height: 100vh;
+   
+    height: 110vh;
     text-align: center;
 }
 
@@ -32,8 +32,8 @@ body {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    height: 80vh;
-    width: 100%;
+    
+    width: 90%;
 }
 
 h1 {
@@ -96,6 +96,7 @@ h1 {
     justify-content: space-around;
     background-color: #282c34;
     padding: 10px 0;
+    z-index: 4;
 }
 
 .nav-bar button {
@@ -113,4 +114,48 @@ h1 {
 .nav-bar button:focus {
     outline: none;
     color: #8f00ff;
+}
+
+@media (max-width: 768px) {
+    #fitgotchi-image {
+        width: 120px;
+        margin-top: 10px;
+        height: 120px;
+    }
+
+    .nav-bar button {
+        font-size: 16px;
+    }
+
+    .actions button {
+        font-size: 24px;
+        padding: 8px 16px;
+    }
+
+    #fitgotchi-name {
+        font-size: 16px;
+        padding: 4px;
+        margin-bottom: 10px;
+    }
+}
+
+@media (max-width: 480px) {
+    #fitgotchi-image {
+        width: 100px;
+        height: 100px;
+    }
+
+    .nav-bar button {
+        font-size: 16px;
+    }
+
+    .actions button {
+        font-size: 14px;
+        padding: 6px 12px;
+    }
+
+    #fitgotchi-name {
+        font-size: 14px;
+        padding: 3px;
+    }
 }

@@ -104,7 +104,7 @@ h1 {
 }
 
 .card-special {
-    background-color: #4caf50;
+    background-color: #31d636;
     color: white;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
@@ -129,8 +129,8 @@ h1 {
 }
 
 .card-special button {
-    background-color: #ffffff;
-    color: #4caf50;
+    background-color: #02024798;
+    color: #ffffff;
     border: none;
     border-radius: 5px;
     padding: 10px 20px;
@@ -156,7 +156,7 @@ h1 {
     background-color: transparent;
     border: none;
     color: #ffffff;
-    font-size: 18px;
+    font-size: 16px;
     cursor: pointer;
 }
 
