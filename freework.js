@@ -1,14 +1,25 @@
 let timer;
 let startTime;
+let totalRoutineTime = 0;
 let running = false;
+let routineExercises = [];
 
 function startStopTimer() {
     if (running) {
         clearInterval(timer);
         running = false;
         updateButtonState('start');
-        calculateRewards();
+        calculateRewardsAndUpdateUser();
     } else {
+        if (routineExercises.length === 0) {
+            alert('Agrega al menos un ejercicio a la rutina antes de iniciar.');
+            return;
+        }
+        totalRoutineTime = routineExercises.reduce((acc, ex) => acc + (ex.duration * 60), 0);
+        if (isNaN(totalRoutineTime) || totalRoutineTime <= 0) {
+            alert('La duración total de la rutina no es válida.');
+            return;
+        }
         startTime = Date.now();
         timer = setInterval(updateTime, 1000);
         running = true;
@@ -16,176 +27,263 @@ function startStopTimer() {
     }
 }
 
+function updateTime() {
+    const elapsed = (Date.now() - startTime) / 1000;
+    updateDisplayTime(elapsed);
+    updateProgressBar(elapsed, totalRoutineTime);
+    if (elapsed >= totalRoutineTime) {
+        finishActivity();
+    }
+}
+
 function resetTimer() {
     clearInterval(timer);
     running = false;
+    startTime = null;
     updateDisplayTime(0);
     updateButtonState('start');
-    resetCircularProgress();
+    updateProgressBar(0, totalRoutineTime);
+    clearRoutine();
+    resetRewards();
 }
 
 function finishActivity() {
+    if (!startTime) {
+        alert("No has iniciado ninguna rutina.");
+        return;
+    }
     clearInterval(timer);
     running = false;
-    calculateRewards();
-
+    calculateRewardsAndUpdateUser();
     const elapsedTime = (Date.now() - startTime) / 1000;
-    const workoutType = document.getElementById('exercise-name-select').value;
-    const intensity = document.getElementById('exercise-intensity').value;
     const currentTime = new Date();
-    const rewards = JSON.parse(localStorage.getItem('workoutRewards'));
-
     const activityDetails = {
-        workoutType: workoutType,
-        intensity: intensity,
-        elapsedTime: elapsedTime,
+        routine: [...routineExercises],
+        elapsedTime,
         date: currentTime.toLocaleDateString(),
         time: currentTime.toLocaleTimeString(),
-        rewards: rewards
+        rewards: JSON.parse(localStorage.getItem('workoutRewards')) || {}
     };
-
-    let history = JSON.parse(localStorage.getItem('activityHistory')) || [];
+    const history = JSON.parse(localStorage.getItem('activityHistory')) || [];
     history.push(activityDetails);
     localStorage.setItem('activityHistory', JSON.stringify(history));
-
     updateButtonState('start');
     resetTimer();
-    alert('Actividad finalizada y guardada en el historial.');
-}
-
-function updateTime() {
-    const elapsed = Date.now() - startTime;
-    updateDisplayTime(elapsed);
-    updateCircularProgress(elapsed);
+    alert('¡Actividad finalizada! Tus datos han sido guardados en el historial.');
 }
 
 function updateDisplayTime(elapsed) {
-    const seconds = Math.floor((elapsed / 1000) % 60);
-    const minutes = Math.floor((elapsed / (1000 * 60)) % 60);
-    const hours = Math.floor((elapsed / (1000 * 60 * 60)) % 24);
+    const seconds = Math.floor(elapsed % 60);
+    const minutes = Math.floor((elapsed / 60) % 60);
+    const hours = Math.floor(elapsed / 3600);
     document.getElementById('time-display').innerText = `${pad(hours)}:${pad(minutes)}:${pad(seconds)}`;
 }
 
-function updateCircularProgress(elapsed) {
-    const progress = Math.min((elapsed / 60000) * 100, 100);
-    document.querySelector('.circular-progress').style.background = `conic-gradient(
-        rgba(57, 255, 20, 0.5) 0%,
-        rgba(57, 255, 20, 0.5) ${progress}%,
-        transparent ${progress}%,
-        transparent 100%
-    )`;
-}
-
-function resetCircularProgress() {
-    document.querySelector('.circular-progress').style.background = `conic-gradient(
-        transparent 0%,
-        transparent 100%
-    )`;
-}
-
-function pad(number) {
-    return number.toString().padStart(2, '0');
-}
-
-function calculateRewards() {
-    const elapsedTime = (Date.now() - startTime) / 1000;
-    const workoutType = document.getElementById('exercise-name-select').value;
-    const intensity = document.getElementById('exercise-intensity').value;
-
-    let caloriesBurned = 0;
-    let experience = 0;
-    let coins = 0;
-
-    switch (workoutType) {
-        case 'warm-up':
-            caloriesBurned = elapsedTime * 0.03;
-            break;
-        case 'cardio':
-            caloriesBurned = elapsedTime * 0.1;
-            break;
-        case 'strength':
-            caloriesBurned = elapsedTime * 0.08;
-            break;
-        case 'stretching':
-            caloriesBurned = elapsedTime * 0.05;
-            break;
+function updateProgressBar(elapsed, total) {
+    const progressBar = document.querySelector('.progress-bar');
+    if (progressBar) {
+        const percentage = total > 0 ? (elapsed / total) * 100 : 0;
+        progressBar.style.width = `${Math.min(percentage, 100)}%`;
     }
-
-    switch (intensity) {
-        case 'intense':
-            caloriesBurned *= 1.5;
-            experience = elapsedTime * 0.2;
-            coins = elapsedTime * 0.1;
-            break;
-        case 'full':
-            caloriesBurned *= 2;
-            experience = elapsedTime * 0.3;
-            coins = elapsedTime * 0.15;
-            break;
-        default:
-            experience = elapsedTime * 0.1;
-            coins = elapsedTime * 0.05;
-            break;
-    }
-
-    updateRewards(Math.round(caloriesBurned), Math.round(experience), Math.round(coins));
-
-    const rewards = {
-        caloriesBurned: Math.round(caloriesBurned),
-        experience: Math.round(experience),
-        coins: Math.round(coins)
-    };
-    localStorage.setItem('workoutRewards', JSON.stringify(rewards));
 }
 
-function updateRewards(caloriesBurned, experience, coins) {
-    document.getElementById('calories-burned').innerText = `Calorías quemadas: ${caloriesBurned}`;
-    document.getElementById('experience-earned').innerText = `Experiencia ganada: ${experience}`;
+function pad(num) {
+    return num.toString().padStart(2, '0');
+}
+
+function getCurrentUser() {
+    try {
+        const userStr = localStorage.getItem('fitgotchiUser');
+        if (!userStr) return null;
+        return JSON.parse(userStr);
+    } catch {
+        return null;
+    }
+}
+
+function saveCurrentUser(user) {
+    if (!user) return;
+    localStorage.setItem('fitgotchiUser', JSON.stringify(user));
+}
+
+function calculateRewardsAndUpdateUser() {
+    if (!startTime) return;
+    let totalCalories = 0, totalExp = 0, totalCoins = 0;
+    routineExercises.forEach(({type, intensity, duration}) => {
+        let calories = 0, exp = 0, coins = 0;
+        switch (type) {
+            case 'warm-up': calories = duration * 0.03 * 60; break;
+            case 'cardio': calories = duration * 0.1 * 60; break;
+            case 'strength': calories = duration * 0.08 * 60; break;
+            case 'stretching': calories = duration * 0.05 * 60; break;
+            case 'custom': calories = duration * 0.06 * 60; break;
+            default: calories = duration * 0.05 * 60; break;
+        }
+        switch (intensity) {
+            case 'intense':
+                calories *= 1.5;
+                exp = duration * 0.2 * 60;
+                coins = duration * 0.1 * 60;
+                break;
+            case 'full':
+                calories *= 2;
+                exp = duration * 0.3 * 60;
+                coins = duration * 0.15 * 60;
+                break;
+            default:
+                exp = duration * 0.1 * 60;
+                coins = duration * 0.05 * 60;
+                break;
+        }
+        totalCalories += calories;
+        totalExp += exp;
+        totalCoins += coins;
+    });
+    const caloriesBurned = Math.round(totalCalories);
+    const experience = Math.round(totalExp);
+    const coins = Math.round(totalCoins);
+    updateRewards(caloriesBurned, experience, coins);
+    localStorage.setItem('workoutRewards', JSON.stringify({caloriesBurned, experience, coins}));
+    const user = getCurrentUser();
+    if (user) {
+        user.stats = user.stats || {};
+        user.fitcoins = (user.fitcoins || 0) + coins;
+        user.stats.experience = (user.stats.experience || 0) + experience;
+        user.stats.level = Math.floor(user.stats.experience / 100);
+        saveCurrentUser(user);
+        showAlert(`¡Ganaste ${coins} FitCoins y ${experience} de experiencia! 🎉`);
+    }
+}
+
+function updateRewards(calories, exp, coins) {
+    document.getElementById('calories-burned').innerText = `Calorías quemadas: ${calories}`;
+    document.getElementById('experience-earned').innerText = `Experiencia ganada: ${exp}`;
     document.getElementById('coins-earned').innerText = `Monedas ganadas: ${coins}`;
 }
 
+function resetRewards() {
+    updateRewards(0, 0, 0);
+}
+
 function updateButtonState(state) {
-    const button = document.getElementById('start-routine-button');
+    const btn = document.getElementById('start-routine-button');
     if (state === 'start') {
-        button.innerText = 'Iniciar Rutina';
-        button.setAttribute('aria-pressed', 'false');
+        btn.innerText = 'Iniciar Rutina';
+        btn.setAttribute('aria-pressed', 'false');
     } else {
-        button.innerText = 'Detener Rutina';
-        button.setAttribute('aria-pressed', 'true');
+        btn.innerText = 'Detener Rutina';
+        btn.setAttribute('aria-pressed', 'true');
     }
 }
 
-function navigateTo(page) {
-    window.location.href = page + ".html";
+function updateSpecificExercises(category) {
+    const select = document.getElementById('specific-exercise-select');
+    select.innerHTML = '<option value="">Seleccionar...</option>';
+    const options = {
+        'warm-up': ['Saltos suaves', 'Rotaciones articulares', 'Trote en el lugar'],
+        'cardio': ['Jumping Jacks', 'Burpees', 'Correr en el lugar'],
+        'strength': ['Flexiones', 'Sentadillas', 'Abdominales'],
+        'stretching': ['Estiramiento de piernas', 'Estiramiento de brazos', 'Estiramiento de espalda']
+    };
+    (options[category] || []).forEach(name => {
+        const opt = document.createElement('option');
+        opt.value = name;
+        opt.textContent = name;
+        select.appendChild(opt);
+    });
 }
+
+function clearRoutine() {
+    routineExercises = [];
+    document.getElementById('routine-steps').innerHTML = '';
+}
+
+document.getElementById('exercise-name-select').addEventListener('change', function () {
+    const custom = document.getElementById('custom-exercise-container');
+    const specific = document.getElementById('specific-exercise-container');
+    if (this.value === 'custom') {
+        custom.style.display = 'block';
+        specific.style.display = 'none';
+    } else {
+        custom.style.display = 'none';
+        specific.style.display = 'block';
+        updateSpecificExercises(this.value);
+    }
+});
+
+document.getElementById('add-exercise-button').addEventListener('click', function () {
+    const type = document.getElementById('exercise-name-select').value;
+    const name = type === 'custom'
+        ? document.getElementById('exercise-name').value.trim()
+        : (document.getElementById('specific-exercise-select').value || document.getElementById('exercise-name-select').options[document.getElementById('exercise-name-select').selectedIndex].text);
+    const intensity = document.getElementById('exercise-intensity').value;
+    const durationStr = document.getElementById('exercise-duration').value.trim();
+    const duration = parseInt(durationStr, 10);
+    if (!name) {
+        alert('Por favor, ingresa un nombre para el ejercicio.');
+        return;
+    }
+    if (!intensity) {
+        alert('Por favor, selecciona la intensidad.');
+        return;
+    }
+    if (isNaN(duration) || duration <= 0) {
+        alert('Por favor, ingresa una duración válida (mayor a 0).');
+        return;
+    }
+    routineExercises.push({ type, name, intensity, duration });
+    const li = document.createElement('li');
+    li.innerText = `${name} - Intensidad: ${intensity} - Duración: ${duration} minutos`;
+    document.getElementById('routine-steps').appendChild(li);
+    if (type === 'custom') document.getElementById('exercise-name').value = '';
+    document.getElementById('exercise-duration').value = '';
+});
 
 document.getElementById('start-routine-button').addEventListener('click', startStopTimer);
 document.getElementById('reset-button').addEventListener('click', resetTimer);
 document.getElementById('finish-button').addEventListener('click', finishActivity);
 
-document.getElementById('exercise-name-select').addEventListener('change', function() {
-    const customExerciseContainer = document.getElementById('custom-exercise-container');
-    if (this.value === 'custom') {
-        customExerciseContainer.style.display = 'block';
-    } else {
-        customExerciseContainer.style.display = 'none';
-    }
-});
+document.getElementById('exercise-name-select').value = 'warm-up';
+updateSpecificExercises('warm-up');
 
-document.getElementById('add-exercise-button').addEventListener('click', function() {
-    const exerciseNameSelect = document.getElementById('exercise-name-select');
-    const exerciseName = exerciseNameSelect.value === 'custom' ? document.getElementById('exercise-name').value : exerciseNameSelect.options[exerciseNameSelect.selectedIndex].text;
-    const intensity = document.getElementById('exercise-intensity').value;
-    const duration = document.getElementById('exercise-duration').value;
+function navigateTo(page) {
+    window.location.href = `${page}.html`;
+}
 
-    if (exerciseName && intensity && duration) {
-        const listItem = document.createElement('li');
-        listItem.innerText = `${exerciseName} - ${intensity} - ${duration} minutos`;
-        document.getElementById('routine-steps').appendChild(listItem);
+function showAlert(message) {
+    const alertBox = document.getElementById('fitgotchi-alert') || createAlertBox();
+    alertBox.textContent = message;
+    alertBox.classList.remove('hide');
+    alertBox.classList.add('show');
 
-        document.getElementById('exercise-name').value = '';
-        document.getElementById('exercise-duration').value = '';
-    } else {
-        alert('Por favor, complete todos los campos.');
-    }
-});
+    // Desaparece con fade out después de 3s
+    setTimeout(() => {
+        alertBox.classList.remove('show');
+        alertBox.classList.add('hide');
+
+        // Limpiar texto y clases tras transición (0.5s)
+        setTimeout(() => {
+            alertBox.textContent = '';
+            alertBox.classList.remove('hide');
+        }, 500);
+    }, 3000);
+}
+
+function createAlertBox() {
+    const alertBox = document.createElement('div');
+    alertBox.id = 'fitgotchi-alert';
+    alertBox.style.position = 'fixed';
+    alertBox.style.bottom = '20px';
+    alertBox.style.left = '50%';
+    alertBox.style.transform = 'translateX(-50%)';
+    alertBox.style.background = '#00ff90';
+    alertBox.style.color = '#000';
+    alertBox.style.padding = '10px 20px';
+    alertBox.style.borderRadius = '10px';
+    alertBox.style.fontWeight = 'bold';
+    alertBox.style.zIndex = '9999';
+    alertBox.style.opacity = '0';
+    alertBox.style.transition = 'opacity 0.5s ease';
+    document.body.appendChild(alertBox);
+    return alertBox;
+}

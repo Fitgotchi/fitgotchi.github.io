@@ -1,41 +1,48 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FitGotchi - Ejercicio con Poses</title>
-    <link rel="stylesheet" href="pose.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Ejercítate con poses guiadas usando reconocimiento de movimientos con FitGotchi." />
+  <title>FitGotchi | Ejercicio con reconocimiento de poses</title>
+  <link rel="stylesheet" href="pose.css" />
 </head>
 <body>
-    <div class="container">
-        <h1>Ejercicio con Poses</h1>
-        <div class="video-container">
-            <video id="video" playsinline autoplay muted></video>
-            <canvas id="output"></canvas>
-        </div>
-        <div class="instructions">
-            <p id="pose-instruction">Instrucción: Abre los brazos</p>
-            <p id="pose-status">Estado: Esperando...</p>
-        </div>
-        <div class="timer">
-            <p id="time-display">00:00:00</p>
-            <button id="start-stop-button">Iniciar Ejercicio</button>
-            <button id="reset-button">Reiniciar</button>
-        </div>
-        <div class="rewards">
-            <h2>Recompensas</h2>
-            <p id="experience-earned">Experiencia ganada: 0</p>
-            <p id="coins-earned">Monedas ganadas: 0</p>
-            <p id="calories-burned">Calorías quemadas: 0</p>
-        </div>
+  <div class="container">
+    <h1>Ejercicio con Poses</h1>
+
+    <div class="video-container">
+      <video id="video" playsinline autoplay muted width="640" height="480" aria-label="Video de cámara para detección de poses"></video>
+      <canvas id="output" width="640" height="480" aria-hidden="true"></canvas>
     </div>
-    <div class="nav-bar">
-        <button onclick="navigateTo('index')">Home</button>
-        <button onclick="navigateTo('exercise')">Ejercicio</button>
-        <button onclick="navigateTo('store')">Tienda</button>
+
+    <div class="instructions">
+      <p id="pose-instruction" aria-live="polite">Instrucción: Abre los brazos</p>
+      <p id="pose-status" aria-live="polite">Estado: Esperando...</p>
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/posenet"></script>
-    <script src="pose.js"></script>
+
+    <div class="timer">
+      <p id="time-display">00:00:00</p>
+      <button id="start-stop-button" type="button">Iniciar Ejercicio</button>
+      <button id="reset-button" type="button" disabled>Reiniciar</button>
+    </div>
+
+    <div class="rewards">
+      <h2>Recompensas</h2>
+      <p id="experience-earned">Experiencia ganada: 0</p>
+      <p id="coins-earned">Monedas ganadas: 0</p>
+      <p id="calories-burned">Calorías quemadas: 0</p>
+    </div>
+  </div>
+
+  <nav class="nav-bar" role="navigation" aria-label="Menú principal">
+    <button type="button" onclick="navigateTo('index')">Inicio</button>
+    <button type="button" onclick="navigateTo('exercise')">Ejercicio</button>
+    <button type="button" onclick="navigateTo('store')">Tienda</button>
+  </nav>
+
+  <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/posenet" defer></script>
+  <script src="pose.js" defer></script>
 </body>
 </html>

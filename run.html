@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="run.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
     <title>FitGotchi - Running</title>
 </head>
 <body>
@@ -12,6 +13,8 @@
             <h1>Ejercicio de Correr 🏃‍♂️</h1>
         </header>
         
+        <div class="map-container" id="map"></div>
+
         <section class="settings">
             <label for="intensity">Intensidad: </label>
             <select id="intensity">
@@ -31,11 +34,15 @@
             </select>
         </section>
         
-        <section class="controls">
-            <button id="start">Comenzar 🏁</button>
-            <button id="pause" disabled>Pausar ⏸️</button>
-            <button id="stop" disabled>Detener 🛑</button>
-        </section>
+        <div id="app">
+            <button id="start">Start</button>
+            <button id="pause">Pause</button>
+            <button id="stop">Stop</button>
+            <div id="timer"></div>
+            <div id="progress-bar">
+                <div class="progress-fill"></div>
+            </div>
+        </div>
         
         <section class="progress">
             <p>Cronómetro: <span id="timer">00:00</span> ⏱️</p>
@@ -63,5 +70,6 @@
         </div>
     </div>
     <script src="run.js"></script>
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 </body>
 </html>

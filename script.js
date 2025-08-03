@@ -4,55 +4,99 @@ document.addEventListener('DOMContentLoaded', () => {
     } else {
         createNewUser();
     }
-    setInterval(updateSleepDaily, 86400000); // Actualiza el sueño diariamente
-    setInterval(increaseHungerOverTime, 60000); // Aumenta el hambre cada minuto
-    setInterval(increaseEnergyOverTime, 60000); // Aumenta la energía cada minuto
+
+    updateFitcoinsDisplay();
+
+    document.getElementById('sleep-button').addEventListener('click', () => {
+        updateSleep();
+        saveState();
+    });
+    document.getElementById('feed-button').addEventListener('click', () => {
+        feedFitGotchi();
+        saveState();
+    });
+    document.getElementById('play-button').addEventListener('click', () => {
+        exerciseFitGotchi();
+        saveState();
+    });
+
+    setInterval(updateSleepDaily, 86400000);
+    setInterval(increaseHungerOverTime, 60000);
+    setInterval(increaseEnergyOverTime, 60000);
+
+    loadDailyMissions();
+
+    const avatar = document.createElement('img');
+    avatar.id = 'fitgotchi-avatar';
+    avatar.src = 'img/neutral.png';
+    const avatarContainer = document.createElement('div');
+    avatarContainer.className = 'avatar-container';
+    avatarContainer.appendChild(avatar);
+    document.querySelector('.container').insertBefore(avatarContainer, document.querySelector('.fitcoin-display'));
+
+    const alertDiv = document.createElement('div');
+    alertDiv.id = 'fitgotchi-alert';
+    document.body.appendChild(alertDiv);
+
+    const logoutBtn = document.createElement('button');
+    logoutBtn.textContent = '🔓 Cerrar Sesión';
+    logoutBtn.className = 'logout';
+    logoutBtn.onclick = logoutUser;
+    document.querySelector('.actions')?.appendChild(logoutBtn);
 });
 
 function updateName() {
-    const fitgotchiName = document.getElementById('fitgotchi-name').value;
+    const nameInput = document.getElementById('fitgotchi-name').value;
     const user = JSON.parse(localStorage.getItem('fitgotchiUser'));
     if (user) {
-        user.name = fitgotchiName;
+        user.name = nameInput;
         localStorage.setItem('fitgotchiUser', JSON.stringify(user));
     }
 }
 
 function createNewUser() {
-    const fitgotchiName = prompt('Ingresa el nombre de tu FitGotchi:');
-    const password = prompt('Ingresa una contraseña:');
-    if (fitgotchiName && password) {
-        const serialNumber = generateSerialNumber();
+    const name = prompt('Nombre de tu FitGotchi:');
+    const password = prompt('Contraseña para guardar tu progreso:');
+    if (name && password) {
         const newUser = {
-            name: fitgotchiName,
-            password: password,
-            serial: serialNumber,
+            name,
+            password,
+            serial: generateSerialNumber(),
             stats: {
-                level: 0,
+                level: 1,
                 experience: 0,
                 speed: 0,
                 cardio: 0,
                 endurance: 0,
                 strength: 0,
+                agility: 0,
                 energy: 100,
                 hunger: 50,
                 sleep: 80
             },
-            lastSleepUpdate: new Date().getTime()
+            fitcoins: 0,
+            skills: {
+                speed: 1,
+                strength: 1,
+                cardio: 1,
+                endurance: 1,
+                agility: 1
+            },
+            lastSleepUpdate: Date.now()
         };
-
         localStorage.setItem('fitgotchiUser', JSON.stringify(newUser));
-        loadUser(); // Carga los datos del nuevo usuario
+        loadUser();
+        updateFitcoinsDisplay();
     }
 }
 
 function loadUser() {
     const user = JSON.parse(localStorage.getItem('fitgotchiUser'));
-    if (user) {
-        document.getElementById('fitgotchi-name').value = user.name;
-        document.getElementById('serial-number').textContent = `Número de serie: ${user.serial}`;
-        loadState(user);
-    }
+    if (!user) return;
+    document.getElementById('fitgotchi-name').value = user.name;
+    document.getElementById('serial-number').textContent = `Número de serie: ${user.serial}`;
+    loadState(user);
+    updateFitcoinsDisplay();
 }
 
 function generateSerialNumber() {
@@ -60,60 +104,47 @@ function generateSerialNumber() {
 }
 
 function saveState() {
-    const user = {
-        name: document.getElementById('fitgotchi-name').value,
-        serial: document.getElementById('serial-number').textContent.replace('Número de serie: ', ''),
-        stats: {
-            energy: document.getElementById('energy').value,
-            hunger: document.getElementById('hunger').value,
-            sleep: document.getElementById('sleep').value,
-            speed: document.getElementById('speed').value,
-            cardio: document.getElementById('cardio').value,
-            endurance: document.getElementById('endurance').value,
-            strength: document.getElementById('strength').value,
-            level: document.getElementById('level').value,
-            experience: document.getElementById('experience').value
-        },
-        lastSleepUpdate: JSON.parse(localStorage.getItem('fitgotchiUser')).lastSleepUpdate
-    };
-
+    const user = JSON.parse(localStorage.getItem('fitgotchiUser'));
+    if (!user) return;
+    user.name = document.getElementById('fitgotchi-name').value;
+    user.serial = document.getElementById('serial-number').textContent.replace('Número de serie: ', '');
+    const ids = ['energy', 'hunger', 'sleep', 'speed', 'cardio', 'endurance', 'strength', 'agility', 'level', 'experience'];
+    ids.forEach(id => {
+        const el = document.getElementById(id);
+        if (el) user.stats[id] = parseInt(el.value);
+    });
     localStorage.setItem('fitgotchiUser', JSON.stringify(user));
 }
 
 function loadState(user) {
-    if (user) {
-        updateMetric('energy', user.stats.energy);
-        updateMetric('hunger', user.stats.hunger);
-        updateMetric('sleep', user.stats.sleep);
-        updateMetric('speed', user.stats.speed);
-        updateMetric('cardio', user.stats.cardio);
-        updateMetric('endurance', user.stats.endurance);
-        updateMetric('strength', user.stats.strength);
-        updateMetric('level', user.stats.level);
-        updateMetric('experience', user.stats.experience);
+    if (user && user.stats) {
+        const keys = ['energy', 'hunger', 'sleep', 'speed', 'cardio', 'endurance', 'strength', 'agility', 'level', 'experience'];
+        keys.forEach(key => {
+            const el = document.getElementById(key);
+            if (el && user.stats[key] !== undefined) {
+                el.value = user.stats[key];
+            }
+        });
     }
 }
 
 function updateMetric(id, value) {
-    document.getElementById(id).value = value;
-    document.getElementById(id).dispatchEvent(new Event('change')); 
-    saveState();
+    const el = document.getElementById(id);
+    if (el) {
+        el.value = value;
+        updateFitgotchiImage();
+    }
 }
 
-function resetMetrics() {
-    updateMetric('energy', 50);
-    updateMetric('hunger', 50);
-    updateMetric('sleep', 50);
-    updateMetric('speed', 0);
-    updateMetric('cardio', 0);
-    updateMetric('endurance', 0);
-    updateMetric('strength', 0);
-    updateMetric('level', 1);
-    updateMetric('experience', 0);
+function updateFitcoinsDisplay() {
+    const user = JSON.parse(localStorage.getItem('fitgotchiUser'));
+    if (user && document.getElementById('fitcoins-count')) {
+        document.getElementById('fitcoins-count').textContent = user.fitcoins || 0;
+    }
 }
 
 function navigateTo(page) {
-    window.location.href = page + ".html";
+    window.location.href = `${page}.html`;
 }
 
 function feedFitGotchi() {
@@ -121,84 +152,109 @@ function feedFitGotchi() {
 }
 
 function exerciseFitGotchi() {
-    let energy = document.getElementById('energy').value;
-    energy = Math.max(0, energy - 20); // Consume energía al ejercitarse
-    updateMetric('energy', energy);
-
-    let hunger = document.getElementById('hunger').value;
-    hunger = Math.min(100, parseInt(hunger) + 10); // Aumenta el hambre al ejercitarse
-    updateMetric('hunger', hunger);
-
-    // Incrementar las métricas al ejercitarse
-    let speed = parseInt(document.getElementById('speed').value) + 1;
-    updateMetric('speed', speed);
-    
-    let cardio = parseInt(document.getElementById('cardio').value) + 2;
-    updateMetric('cardio', cardio);
-    
-    let endurance = parseInt(document.getElementById('endurance').value) + 1;
-    updateMetric('endurance', endurance);
-    
-    let strength = parseInt(document.getElementById('strength').value) + 1;
-    updateMetric('strength', strength);
-    
-    let experience = parseInt(document.getElementById('experience').value) + 5;
+    const getVal = id => parseInt(document.getElementById(id).value);
+    updateMetric('energy', Math.max(0, getVal('energy') - 20));
+    updateMetric('hunger', Math.min(100, getVal('hunger') + 10));
+    updateMetric('speed', getVal('speed') + 1);
+    updateMetric('cardio', getVal('cardio') + 2);
+    updateMetric('endurance', getVal('endurance') + 1);
+    updateMetric('strength', getVal('strength') + 1);
+    updateMetric('agility', getVal('agility') + 1);
+    let experience = getVal('experience') + 10;
     updateMetric('experience', experience);
-
-    // Incrementar el nivel basado en la experiencia
     let level = Math.floor(experience / 100);
     updateMetric('level', level);
-
-    // Redirigir a exercise.html
+    const user = JSON.parse(localStorage.getItem('fitgotchiUser'));
+    if (user) {
+        user.fitcoins = (user.fitcoins || 0) + 5;
+        localStorage.setItem('fitgotchiUser', JSON.stringify(user));
+        showAlert(`¡Ganaste 5 FitCoins! 💰 Total: ${user.fitcoins}`);
+        updateFitcoinsDisplay();
+    }
+    saveState();
     window.location.href = 'exercise.html';
 }
 
 function increaseHungerOverTime() {
-    let hunger = document.getElementById('hunger').value;
-    hunger = Math.min(100, parseInt(hunger) + 1);
-    updateMetric('hunger', hunger);
+    let hunger = parseInt(document.getElementById('hunger').value);
+    updateMetric('hunger', Math.min(100, hunger + 1));
+    saveState();
 }
 
 function increaseEnergyOverTime() {
-    let energy = document.getElementById('energy').value;
-    energy = Math.min(100, parseInt(energy) + 1);
-    updateMetric('energy', energy);
+    let energy = parseInt(document.getElementById('energy').value);
+    updateMetric('energy', Math.min(100, energy + 1));
+    saveState();
 }
 
 function updateSleep() {
-    let hours = prompt("¿Cuántas horas dormiste hoy?");
+    let hours = parseInt(prompt("¿Cuántas horas dormiste hoy?"));
     let sleepPercentage = 0;
-    if (hours >= 7) {
-        sleepPercentage = 100;
-    } else if (hours >= 5) {
-        sleepPercentage = 75;
-    } else if (hours >= 3) {
-        sleepPercentage = 25;
-    } else {
-        sleepPercentage = 0;
-    }
+    if (hours >= 7) sleepPercentage = 100;
+    else if (hours >= 5) sleepPercentage = 75;
+    else if (hours >= 3) sleepPercentage = 25;
+    else sleepPercentage = 0;
     updateMetric('sleep', sleepPercentage);
-
-    // Actualiza el timestamp del último sueño
     const user = JSON.parse(localStorage.getItem('fitgotchiUser'));
-    user.lastSleepUpdate = new Date().getTime();
-    localStorage.setItem('fitgotchiUser', JSON.stringify(user));
+    if (user) {
+        user.lastSleepUpdate = Date.now();
+        localStorage.setItem('fitgotchiUser', JSON.stringify(user));
+    }
+    saveState();
 }
 
 function updateSleepDaily() {
-    const now = new Date().getTime();
     const user = JSON.parse(localStorage.getItem('fitgotchiUser'));
-    if (user) {
-        let lastSleepUpdate = user.lastSleepUpdate;
-        if (lastSleepUpdate && now - lastSleepUpdate > 86400000) { // 24 horas en milisegundos
-            updateMetric('sleep', Math.min(100, parseInt(document.getElementById('sleep').value) + 10));
-            user.lastSleepUpdate = now;
-            localStorage.setItem('fitgotchiUser', JSON.stringify(user));
-        }
+    if (!user) return;
+    const now = Date.now();
+    if (now - user.lastSleepUpdate > 86400000) {
+        const currentSleep = parseInt(document.getElementById('sleep').value);
+        updateMetric('sleep', Math.min(100, currentSleep + 10));
+        user.lastSleepUpdate = now;
+        localStorage.setItem('fitgotchiUser', JSON.stringify(user));
+        saveState();
     }
 }
 
-document.getElementById('sleep-button').addEventListener('click', updateSleep);
-document.getElementById('feed-button').addEventListener('click', feedFitGotchi);
-document.getElementById('play-button').addEventListener('click', exerciseFitGotchi);
-document.getElementById('exercise-button').addEventListener('click', exerciseFitGotchi);
+function updateFitgotchiImage() {
+    const energy = parseInt(document.getElementById('energy').value);
+    const hunger = parseInt(document.getElementById('hunger').value);
+    const sleep = parseInt(document.getElementById('sleep').value);
+    const avatar = document.getElementById('fitgotchi-avatar');
+    if (!avatar) return;
+    if (energy > 70 && hunger < 40 && sleep > 60) {
+        avatar.src = 'img/happy.png';
+    } else if (hunger > 80 || sleep < 30) {
+        avatar.src = 'img/sad.png';
+    } else if (energy < 30) {
+        avatar.src = 'img/tired.png';
+    } else {
+        avatar.src = 'img/neutral.png';
+    }
+}
+
+function showAlert(message) {
+    const alertBox = document.getElementById('fitgotchi-alert');
+    if (!alertBox) return;
+    alertBox.textContent = message;
+    alertBox.classList.add('show');
+    setTimeout(() => {
+        alertBox.classList.remove('show');
+    }, 3000);
+}
+
+function upgradeSkill(skill) {
+    const user = JSON.parse(localStorage.getItem('fitgotchiUser'));
+    if (!user || !user.skills || !user.fitcoins) return;
+    const currentLevel = user.skills[skill];
+    const cost = currentLevel * 10;
+    if (user.fitcoins >= cost) {
+        user.skills[skill]++;
+        user.fitcoins -= cost;
+        localStorage.setItem('fitgotchiUser', JSON.stringify(user));
+        showAlert(`Mejoraste ${skill} a nivel ${user.skills[skill]} 🎯`);
+        updateFitcoinsDisplay();
+    } else {
+        showAlert(`Necesitás ${cost} FitCoins para mejorar ${skill}`);
+    }
+}

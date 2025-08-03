@@ -9,10 +9,10 @@
 <body>
     <div class="container">
         <h1>Cardio</h1>
-        <p>Inicia tu rutina de cardio para mejorar tu resistencia cardiovascular.</p>
+        <p>Inicia tu rutina para mejorar tu resistencia cardiovascular.</p>
         <div class="instructions">
             <h2>Instrucciones</h2>
-            <p id="instruction-display">¡Prepárate para comenzar! 🏃‍♂️</p>
+            <p id="instruction-display">¡Prepárate para comenzar! 🚀</p>
         </div>
         <div class="timer-container">
             <div class="circular-progress" id="circular-progress"></div>
@@ -24,16 +24,45 @@
         
         <div class="rewards">
             <h2>Recompensas</h2>
-            <p id="experience-earned">Experiencia ganada: 0</p>
-            <p id="coins-earned">Monedas ganadas: 0</p>
-            <p id="calories-burned">Calorías quemadas: 0</p>
+            <div class="reward-item">
+                <label for="experience">Experiencia:</label>
+                <input type="number" id="experience" value="0" readonly>
+            </div>
+            <div class="reward-item">
+                <label for="coins">Monedas:</label>
+                <input type="number" id="coins" value="0" readonly>
+            </div>
+            <div class="reward-item">
+                <label for="calories">Calorías:</label>
+                <input type="number" id="calories" value="0" readonly>
+            </div>
+            <div class="reward-item">
+                <label for="speed">Velocidad:</label>
+                <input type="number" id="speed" value="0" readonly>
+            </div>
+            <div class="reward-item">
+                <label for="cardio">Cardio:</label>
+                <input type="number" id="cardio" value="0" readonly>
+            </div>
+            <div class="reward-item">
+                <label for="endurance">Resistencia:</label>
+                <input type="number" id="endurance" value="0" readonly>
+            </div>
+            <div class="reward-item">
+                <label for="strength">Fuerza:</label>
+                <input type="number" id="strength" value="0" readonly>
+            </div>
+            <div class="reward-item">
+                <label for="agility">Agilidad:</label>
+                <input type="number" id="agility" value="0" readonly>
+            </div>
         </div>
         
         <div class="nav-bar">
             <button onclick="navigateTo('index')">Home</button>
             <button onclick="navigateTo('exercise')">Ejercicio</button>
             <button onclick="navigateTo('store')">Tienda</button>
-            <button onclick="navigateTo('history')">Historial</button>
+            
         </div>
     </div>
     <script src="cardio01.js"></script>

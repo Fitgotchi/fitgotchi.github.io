@@ -9,91 +9,67 @@ const startStopButton = document.getElementById('start-stop-button');
 const resetButton = document.getElementById('reset-button');
 
 const instructions = [
-    { instruction: 'Abre los brazos', keypoints: ['leftWrist', 'rightWrist'], minConfidence: 0.5 },
-    { instruction: 'Estira los brazos', keypoints: ['leftWrist', 'rightWrist'], minConfidence: 0.5 },
-    { instruction: 'Sube los brazos', keypoints: ['leftWrist', 'rightWrist'], minConfidence: 0.5 },
+    { instruction: 'Abre los brazos', validate: armsOpen },
+    { instruction: 'Estira los brazos hacia adelante', validate: armsForward },
+    { instruction: 'Sube los brazos', validate: armsUp },
+    { instruction: 'Toca tus hombros con las manos', validate: touchShoulders }
 ];
 
 let currentInstruction = 0;
-let timer;
-let startTime;
-let running = false;
+let timer, startTime, running = false, animationFrameId;
 
 async function setupCamera() {
     try {
         const stream = await navigator.mediaDevices.getUserMedia({ video: true });
         videoElement.srcObject = stream;
-
-        return new Promise((resolve) => {
+        return new Promise((res) => {
             videoElement.onloadedmetadata = () => {
                 canvasElement.width = videoElement.videoWidth;
                 canvasElement.height = videoElement.videoHeight;
-                resolve(videoElement);
+                res(videoElement);
             };
         });
-    } catch (error) {
-        console.error('Error al acceder a la cámara: ', error);
-        alert('No se pudo acceder a la cámara. Asegúrate de que esté conectada y que el navegador tenga permisos para acceder a ella.');
+    } catch (e) {
+        console.error('No se pudo acceder a la cámara:', e);
     }
 }
 
 async function loadPosenet() {
-    try {
-        net = await posenet.load();
-        console.log('PoseNet cargado');
-    } catch (error) {
-        console.error('Error al cargar PoseNet: ', error);
-    }
+    net = await posenet.load();
 }
 
 async function detectPose() {
-    if (!running) return;
-    
-    if (!net) {
-        console.error('PoseNet no está cargado');
-        return;
-    }
-
+    if (!running || !net) return;
     try {
-        const pose = await net.estimateSinglePose(videoElement, {
-            flipHorizontal: false,
-        });
-
-        // Ajustar tamaño del canvas al del video
-        canvasElement.width = videoElement.videoWidth;
-        canvasElement.height = videoElement.videoHeight;
-
-        canvasCtx.clearRect(0, 0, canvasElement.width, canvasElement.height);
-        const minPartConfidence = 0.5;
-
-        pose.keypoints.forEach((keypoint) => {
-            if (keypoint.score > minPartConfidence) {
-                const { y, x } = keypoint.position;
-                canvasCtx.beginPath();
-                canvasCtx.arc(x, y, 5, 0, 2 * Math.PI);
-                canvasCtx.fillStyle = 'aqua';
-                canvasCtx.fill();
-            }
-        });
-
+        const pose = await net.estimateSinglePose(videoElement, { flipHorizontal: false });
+        drawKeypoints(pose);
         checkPose(pose);
-    } catch (error) {
-        console.error('Error al detectar la pose: ', error);
+    } catch (e) {
+        console.error('Error en la detección:', e);
     }
+    animationFrameId = requestAnimationFrame(detectPose);
+}
 
-    requestAnimationFrame(detectPose);
+function drawKeypoints(pose) {
+    canvasCtx.clearRect(0, 0, canvasElement.width, canvasElement.height);
+    pose.keypoints.forEach(({ score, position: { x, y } }) => {
+        if (score > 0.5) {
+            canvasCtx.beginPath();
+            canvasCtx.arc(x, y, 5, 0, 2 * Math.PI);
+            canvasCtx.fillStyle = 'aqua';
+            canvasCtx.fill();
+        }
+    });
 }
 
 function checkPose(pose) {
-    const { keypoints } = pose;
-    const requiredKeypoints = instructions[currentInstruction].keypoints;
+    const keypoints = pose.keypoints.reduce((map, kp) => { map[kp.part] = kp; return map; }, {});
+    const valid = instructions[currentInstruction].validate(keypoints);
+    updatePoseStatus(valid);
+}
 
-    const isPoseCorrect = requiredKeypoints.every((key) => {
-        const point = keypoints.find((kp) => kp.part === key);
-        return point && point.score > 0.5 && point.position.y < 300; // Ajustar la condición según la instrucción
-    });
-
-    if (isPoseCorrect) {
+function updatePoseStatus(valid) {
+    if (valid) {
         poseStatus.innerText = 'Estado: OK';
         poseStatus.style.color = '#39ff14';
         currentInstruction = (currentInstruction + 1) % instructions.length;
@@ -104,12 +80,57 @@ function checkPose(pose) {
     }
 }
 
+function getAngle(a, b, c) {
+    const ab = { x: b.x - a.x, y: b.y - a.y };
+    const cb = { x: b.x - c.x, y: b.y - c.y };
+    const dot = ab.x * cb.x + ab.y * cb.y;
+    const magAB = Math.hypot(ab.x, ab.y);
+    const magCB = Math.hypot(cb.x, cb.y);
+    return Math.acos(dot / (magAB * magCB)) * (180 / Math.PI);
+}
+
+// Validaciones
+
+function armsOpen(kp) {
+    return validateArmAngle(kp, 80, 100);
+}
+
+function armsForward(kp) {
+    return validateArmAngle(kp, 160, 200);
+}
+
+function armsUp(kp) {
+    if (!kp.leftWrist || !kp.rightWrist || !kp.leftShoulder || !kp.rightShoulder) return false;
+    return kp.leftWrist.position.y < kp.leftShoulder.position.y &&
+           kp.rightWrist.position.y < kp.rightShoulder.position.y;
+}
+
+function touchShoulders(kp) {
+    if (!kp.leftWrist || !kp.leftShoulder || !kp.rightWrist || !kp.rightShoulder) return false;
+    const lDist = Math.abs(kp.leftWrist.position.x - kp.leftShoulder.position.x) +
+                  Math.abs(kp.leftWrist.position.y - kp.leftShoulder.position.y);
+    const rDist = Math.abs(kp.rightWrist.position.x - kp.rightShoulder.position.x) +
+                  Math.abs(kp.rightWrist.position.y - kp.rightShoulder.position.y);
+    return lDist < 60 && rDist < 60;
+}
+
+function validateArmAngle(kp, min, max) {
+    if (!kp.leftShoulder || !kp.leftElbow || !kp.leftWrist ||
+        !kp.rightShoulder || !kp.rightElbow || !kp.rightWrist) return false;
+
+    const l = getAngle(kp.leftShoulder.position, kp.leftElbow.position, kp.leftWrist.position);
+    const r = getAngle(kp.rightShoulder.position, kp.rightElbow.position, kp.rightWrist.position);
+
+    return l > min && l < max && r > min && r < max;
+}
+
 function startStopTimer() {
     if (running) {
         clearInterval(timer);
         running = false;
         startStopButton.innerText = 'Iniciar Ejercicio';
         calculateRewards();
+        if (animationFrameId) cancelAnimationFrame(animationFrameId);
     } else {
         startTime = Date.now();
         timer = setInterval(updateTime, 1000);
@@ -124,41 +145,42 @@ function resetTimer() {
     running = false;
     timeDisplay.innerText = '00:00:00';
     startStopButton.innerText = 'Iniciar Ejercicio';
+    if (animationFrameId) cancelAnimationFrame(animationFrameId);
 }
 
 function updateTime() {
-    const currentTime = Date.now();
-    const elapsed = currentTime - startTime;
-    const seconds = Math.floor((elapsed / 1000) % 60);
-    const minutes = Math.floor((elapsed / (1000 * 60)) % 60);
-    const hours = Math.floor((elapsed / (1000 * 60 * 60)) % 24);
-    timeDisplay.innerText = `${pad(hours)}:${pad(minutes)}:${pad(seconds)}`;
+    const elapsed = Date.now() - startTime;
+    const s = Math.floor((elapsed / 1000) % 60);
+    const m = Math.floor((elapsed / 60000) % 60);
+    const h = Math.floor((elapsed / 3600000) % 24);
+    timeDisplay.innerText = `${pad(h)}:${pad(m)}:${pad(s)}`;
 }
 
-function pad(number) {
-    return number.toString().padStart(2, '0');
+function pad(n) {
+    return n.toString().padStart(2, '0');
 }
 
 function calculateRewards() {
-    const elapsedTime = (Date.now() - startTime) / 1000;
-    let caloriesBurned = elapsedTime * 0.1; // Ajustar la fórmula según el ejercicio
-    let experience = elapsedTime * 0.2;
-    let coins = elapsedTime * 0.05;
+    const elapsed = (Date.now() - startTime) / 1000;
+    const cals = Math.round(elapsed * 0.1);
+    const exp = Math.round(elapsed * 0.2);
+    const coins = Math.round(elapsed * 0.05);
 
-    document.getElementById('calories-burned').innerText = `Calorías quemadas: ${Math.round(caloriesBurned)}`;
-    document.getElementById('experience-earned').innerText = `Experiencia ganada: ${Math.round(experience)}`;
-    document.getElementById('coins-earned').innerText = `Monedas ganadas: ${Math.round(coins)}`;
+    document.getElementById('calories-burned').innerText = `Calorías quemadas: ${cals}`;
+    document.getElementById('experience-earned').innerText = `Experiencia ganada: ${exp}`;
+    document.getElementById('coins-earned').innerText = `Monedas ganadas: ${coins}`;
 
-    const rewards = {
-        caloriesBurned: Math.round(caloriesBurned),
-        experience: Math.round(experience),
-        coins: Math.round(coins)
+    const old = JSON.parse(localStorage.getItem('fitUserStats')) || { calories: 0, experience: 0, coins: 0 };
+    const updated = {
+        calories: old.calories + cals,
+        experience: old.experience + exp,
+        coins: old.coins + coins
     };
-    localStorage.setItem('workoutRewards', JSON.stringify(rewards));
+    localStorage.setItem('fitUserStats', JSON.stringify(updated));
 }
 
-function navigateTo(page) {
-    window.location.href = page + ".html";
+function navigateTo(p) {
+    window.location.href = p + ".html";
 }
 
 startStopButton.addEventListener('click', startStopTimer);

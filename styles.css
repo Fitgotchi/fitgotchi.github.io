@@ -1,314 +1,239 @@
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Poppins:wght@400;700&display=swap');
+
 @keyframes gradientAnimation {
-    0% {
-        background-position: 0% 0%;
-    }
-    50% {
-        background-position: 100% 100%;
-    }
-    100% {
-        background-position: 0% 0%;
-    }
+  0% { background-position: 0% 0%; }
+  50% { background-position: 100% 100%; }
+  100% { background-position: 0% 0%; }
+}
+
+@keyframes float {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+  100% { transform: translateY(0); }
+}
+
+@keyframes pulseBar {
+  from { filter: brightness(1); }
+  to { filter: brightness(1.4); }
 }
 
 body {
-    font-family: Arial, sans-serif;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    background: linear-gradient(135deg, #036801, #1ba802, #6f01c4, #54015d, #01c829, #6e02c1);
-    background-size: 200% 200%;
-    animation: gradientAnimation 30s ease infinite;
-    color: #ffffff;
-    margin: 0;
-    padding: 0;
-    height: 180vh;
-    text-align: center;
-}
-
-.container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 5px;
-}
-
-input[type="range"] {
-    width: 80%;
-    margin: 10px 0;
-}
-
-input[type="button"], button {
-    display: block;
-    margin: 10px auto;
-    padding: 10px 20px;
-    background-color: #8f00ff;
-    border: none;
-    color: #fff;
-    cursor: pointer;
-    font-size: 16px;
-    border-radius: 5px;
-}
-
-input[type="button"]:hover, button:hover {
-    background-color: #33cc12;
+  font-family: 'Poppins', sans-serif;
+  background: linear-gradient(135deg, #00cc22, #c900d0, #a4016b, #015d21, #01c829, #df5600);
+  background-size: 250% 240%;
+  animation: gradientAnimation 60s ease infinite;
+  color: #ffffff;
+  text-align: center;
+  margin: 0;
+  padding-bottom: 80px;
 }
 
 .app-title {
-    font-size: 32px;
-    color: #39ff14;
-    margin: 20px 0;
-    margin-bottom: 10px;
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
-    font-family: 'Roboto Mono', monospace;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 2.4vh;
+  color: #39ff14;
+  margin: 20px 0;
+  text-shadow: 0 0 10px #39ff14;
 }
 
-.button {
-    font-size: 16px;
-}
-
-.fitgotchi-stats {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    max-width: 100%;
-    margin-bottom: 20px;
-}
-
-.fitgotchi-stats label {
-    margin: 5px 0;
-    font-size: 16px;
-    color: #09ff00;
-}
-
-.fitgotchi-stats input {
-    width: 80%;
-    max-width: 300px;
-    padding: 5px;
-    margin: 5px 0;
-    border: none;
-    border-radius: 5px;
-    text-align: center;
-}
-
-.metric {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
-    margin: 10px 0;
-}
-
-.metric label {
-    font-size: 16px;
-    color: #00ff33;
-    margin-bottom: 5px;
-}
-
-progress {
-    width: 100%;
-    height: 20px;
-    appearance: none;
-    position: relative;
-}
-
-progress::-webkit-progress-bar {
-    background-color: #555;
-    border-radius: 10px;
-}
-
-progress::-webkit-progress-value {
-    background: linear-gradient(145deg, #39ff14, #8f00ff);
-    border-radius: 10px;
-}
-
-progress::after {
-    content: attr(value) "%";
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    color: #ffffff;
+.fitcoin-display {
+    font-family: 'Press Start 2P', monospace;
     font-size: 14px;
-    font-weight: bold;
-    pointer-events: none; 
-    z-index: 1; 
-}
-
-#serial-number {
-    font-size: 18px;
     color: #39ff14;
-    margin-top: 0px;
-    text-align: center;
-    width: 100%;
+    background-color: #000000aa;
+    padding: 8px 16px;
+    border: 2px solid #39ff14;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    display: inline-block;
+    box-shadow: 0 0 8px #39ff14;
+  }  
+
+  #daily-missions {
+    background-color: #111;
+    border: 2px solid #39ff14;
+    border-radius: 10px;
+    padding: 10px;
+    margin: 20px auto;
+    max-width: 90%;
+    box-shadow: 0 0 8px #39ff14;
+  }
+  
+  #daily-missions h2 {
+    font-size: 14px;
+    font-family: 'Press Start 2P', monospace;
+    color: #39ff14;
+    margin-bottom: 10px;
+  }
+  
+  #daily-missions ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  #daily-missions li {
+    font-size: 12px;
+    font-family: 'Poppins', sans-serif;
+    color: #ffffff;
+    margin: 5px 0;
+  }
+  
+  #fitgotchi-alert {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #000000ee;
+    color: #39ff14;
+    padding: 10px 20px;
+    border: 2px solid #39ff14;
+    border-radius: 8px;
+    font-family: 'Press Start 2P', monospace;
+    font-size: 12px;
+    box-shadow: 0 0 10px #39ff14;
+    z-index: 999;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.4s ease;
+  }
+  
+  #fitgotchi-alert.show {
+    opacity: 1;
+    pointer-events: auto;
+  }
+  
+  .actions button.logout {
+    background-color: #440000;
+    border-color: #ff4444;
+    color: #ff4444;
+    box-shadow: 0 0 8px #ff4444;
+  }
+  
+  .actions button.logout:hover {
+    background-color: #ff4444;
+    color: #000;
+    box-shadow: 0 0 15px #ff4444;
+  }
+  
+
+  .avatar-container {
+    margin: 20px 0;
+    animation: float 3s ease-in-out infinite;
+  }
+  
+  #fitgotchi-avatar {
+    width: 150px;
+    height: auto;
+    border-radius: 12px;
+    box-shadow: 0 0 15px #39ff14;
+  }
+  
+
+.container {
+  max-width: 500px;
+  margin: auto;
+  padding: 20px;
 }
 
 #fitgotchi-name {
-    font-size: 18px;
-    padding: 5px;
-    border: none;
-    border-radius: 5px;
-    margin-top: 5px;
-    margin-bottom: 10px;
-    width: 80%;
-    max-width: 300px;
-    background-color: #282c34;
-    color: #ffffff;
-    text-align: center;
+  font-size: 16px;
+  padding: 8px;
+  background: #111;
+  color: #39ff14;
+  border: 2px solid #39ff14;
+  border-radius: 5px;
+  width: 80%;
+  margin-bottom: 10px;
 }
 
-.fitgotchi {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+#serial-number {
+  font-size: 14px;
+  color: #16001e;
+  margin-bottom: 20px;
+  display: block;
 }
 
-#fitgotchi-image {
-    width: 150px;
-    height: 150px;
-    border-radius: 50%;
-    background: linear-gradient(145deg, #39ff14, #8f00ff);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    margin-bottom: 10px;
-    border: 5px solid #39ff14;
+.fitgotchi-stats label {
+  display: block;
+  text-align: center;
+  margin-top: 12px;
+  color: #39ff14;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 12px;
+}
+
+.fitgotchi-stats input {
+  display: block;
+  margin: 5px auto 10px auto; /* centrado horizontal con margin auto */
+  width: 60vw; /* ancho fijo para que no quede tan ancho */
+  text-align: center; /* número centrado dentro del input */
+  background: #111;
+  color: #39ff14;
+  border: 2px solid #39ff14;
+  font-family: 'VT323', monospace;
+  font-size: 18px;
+  padding: 5px;
+  border-radius: 6px;
+}
+
+
+progress {
+  width: 100%;
+  height: 16px;
+  appearance: none;
+}
+
+progress::-webkit-progress-bar {
+  background-color: #333;
+  border-radius: 10px;
+}
+
+progress::-webkit-progress-value {
+  background: linear-gradient(145deg, #39ff14, #8f00ff);
+  border-radius: 10px;
+  animation: pulseBar 2s infinite alternate;
+}
+
+button {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 12px;
+  background-color: #111;
+  color: #ffffff;
+  border: 2px solid #8f00ff;
+  padding: 12px 16px;
+  margin: 6px;
+  border-radius: 8px;
+  cursor: pointer;
+  box-shadow: 0 0 8px #8f00ff;
+  transition: all 0.2s;
+}
+
+button:hover {
+  background-color: #8f00ff;
+  color: #000;
+  box-shadow: 0 0 15px #39ff14;
 }
 
 .nav-bar {
-    position: fixed;
-    bottom: 0;
-    width: 100%;
-    display: flex;
-    justify-content: space-around;
-    background-color: #282c34;
-    padding: 10px 0;
-    z-index: 4;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  background: #111;
+  display: flex;
+  justify-content: space-around;
+  padding: 10px;
+  border-top: 2px solid #39ff14;
+  z-index: 10;
 }
 
 .nav-bar button {
-    background-color: transparent;
-    border: none;
-    color: #ffffff;
-    font-size: 18px;
-    cursor: pointer;
+  background: none;
+  border: none;
+  color: #39ff14;
+  font-size: 20px;
 }
 
 .nav-bar button:hover {
-    color: #39ff14;
-}
-
-.nav-bar button:focus {
-    outline: none;
-    color: #8f00ff;
-}
-
-#sleep-button {
-    background-color: #282c34;
-    border: 2px solid #8f00ff;
-    color: #ffffff;
-    padding: 10px 20px;
-    font-size: 16px;
-    cursor: pointer;
-    margin: 10px;
-    margin-top: 20px;
-    border-radius: 5px;
-    transition: background-color 0.3s, color 0.3s;
-}
-
-#sleep-button:hover {
-    background-color: #8f00ff;
-    color: #ffffff;
-}
-
-#sleep-button:focus {
-    outline: none;
-    background-color: #8f00ff;
-    color: #ffffff;
-}
-
-.actions {
-    margin-top: 20px;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-}
-
-.actions button {
-    background-color: #282c34;
-    border: 2px solid #39ff14;
-    color: #ffffff;
-    padding: 10px 20px;
-    font-size: 20px;
-    cursor: pointer;
-    margin: 5px;
-    border-radius: 5px;
-    transition: background-color 0.3s, color 0.3s;
-}
-
-.actions button:hover {
-    background-color: #39ff14;
-    color: #000000;
-}
-
-.actions #freework-button {
-    background-color: #282c34;
-    border: 2px solid #39ff14;
-    color: #ffffff;
-    padding: 10px 20px;
-    font-size: 1.5vh;
-    cursor: pointer;
-    margin: 5px;
-    border-radius: 5px;
-    transition: background-color 0.3s, color 0.3s;
-}
-
-.actions #freework-button:hover {
-    background-color: #39ff14;
-    color: #000000;
-}
-
-@media (max-width: 768px) {
-    #fitgotchi-image {
-        width: 120px;
-        margin-top: 10px;
-        height: 120px;
-    }
-
-    .nav-bar button {
-        font-size: 16px;
-    }
-
-    .actions button {
-        font-size: 24px;
-        padding: 8px 16px;
-    }
-
-    #fitgotchi-name {
-        font-size: 16px;
-        padding: 4px;
-        margin-bottom: 10px;
-    }
-}
-
-@media (max-width: 480px) {
-    #fitgotchi-image {
-        width: 100px;
-        height: 100px;
-    }
-
-    .nav-bar button {
-        font-size: 16px;
-    }
-
-    .actions button {
-        font-size: 12px;
-        padding: 6px 12px;
-    }
-
-    #fitgotchi-name {
-        font-size: 14px;
-        padding: 3px;
-    }
+  color: #9d00ff;
 }

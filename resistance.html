@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="resistance.css">
+    <title>FitGotchi - Resistencia</title>
+</head>
+<body>
+    <div class="container">
+        <h1>Resistencia</h1>
+        <p>Selecciona una rutina de resistencia para mejorar tu fuerza y aguante.</p>
+
+        <div class="exercise-options">
+            <div class="exercise-card">
+                <h2>Resistencia Relajada</h2>
+                <p>Rutina de resistencia de baja intensidad para principiantes.</p>
+                <button onclick="startExercise('resistance01')">Iniciar Resistencia Relajada</button>
+            </div>
+            <div class="exercise-card">
+                <h2>Resistencia Intermedia</h2>
+                <p>Rutina de resistencia de intensidad moderada.</p>
+                <button onclick="startExercise('resistance02')">Iniciar Resistencia Intermedia</button>
+            </div>
+            <div class="exercise-card">
+                <h2>Resistencia Intensa</h2>
+                <p>Rutina de resistencia de alta intensidad para avanzados.</p>
+                <button onclick="startExercise('resistance03')">Iniciar Resistencia Intensa</button>
+            </div>
+        </div>
+
+        <div class="nav-bar">
+            <button onclick="navigateTo('index')">Home</button>
+            <button onclick="navigateTo('exercise')">Ejercicio</button>
+            <button onclick="navigateTo('store')">Tienda</button>
+        </div>
+    </div>
+    <script src="resistance.js"></script>
+</body>
+</html>

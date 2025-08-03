@@ -22,7 +22,7 @@ body {
     color: #ffffff;
     margin: 0;
     padding: 0;
-    height: 180vh;
+    height: 110vh;
     text-align: center;
 }
 
@@ -150,13 +150,14 @@ h1 {
     justify-content: space-around;
     background-color: #282c34;
     padding: 10px 0;
+    z-index: 4;
 }
 
 .nav-bar button {
     background-color: transparent;
     border: none;
     color: #ffffff;
-    font-size: 16px;
+    font-size: 18px;
     cursor: pointer;
 }
 

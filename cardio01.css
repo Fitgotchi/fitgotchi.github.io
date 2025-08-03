@@ -22,8 +22,7 @@ body {
     color: #ffffff;
     margin: 0;
     padding: 0;
-    width: 100%;
-    height: 100vh;
+    height: 220vh;
     text-align: center;
 }
 
@@ -38,6 +37,11 @@ body {
 
 h1 {
     color: #39ff14;
+}
+
+p {
+    color: #ffffff;
+    font-size: 2vh;
 }
 
 .exercise-details {
@@ -73,17 +77,40 @@ h1 {
     width: 200px;
     height: 200px;
     border-radius: 50%;
-    border: 10px solid rgba(57, 255, 20, 0.3);
-    border-top-color: #39ff14;
-    transform: rotate(-90deg);
+    border: 10px solid rgba(55, 255, 20, 0.202);
+    border-top-color: #14ff57;
     background: conic-gradient(
         rgba(57, 255, 20, 0.3) 0%,
-        rgba(57, 255, 20, 0.3) 50%,
-        transparent 50%,
-        transparent 100%
+        rgba(57, 255, 20, 0.3) 100%
     );
-    margin-bottom: 110px;
     position: relative;
+    margin-bottom: 30px;
+    transition: background 0.3s ease;
+}
+
+.circular-progress::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 100px;
+    height: 100px;
+    background: #282c34;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+}
+
+@keyframes progress {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.circular-progress.animating {
+    animation: progress 30s linear infinite;
 }
 
 #time-display {
@@ -94,6 +121,7 @@ h1 {
     margin: 0;
     position: absolute;
     top: 0;
+    margin-top: 10px;
     left: 0;
     width: 100%;
 }
@@ -145,7 +173,7 @@ button:focus {
     background-color: transparent;
     border: none;
     color: #ffffff;
-    font-size: 18px;
+    font-size: 16px;
     cursor: pointer;
 }
 
@@ -156,4 +184,41 @@ button:focus {
 .nav-bar button:focus {
     outline: none;
     color: #8f00ff;
+}
+
+.rewards {
+    background-color: #282c34;
+    border: 2px solid #39ff14;
+    border-radius: 8px;
+    padding: 20px;
+    margin: 20px;
+    width: 80%;
+    text-align: center;
+}
+
+.rewards h2 {
+    color: #39ff14;
+    margin-bottom: 15px;
+}
+
+.reward-item {
+    margin: 10px 0;
+}
+
+.reward-item label {
+    font-size: 18px;
+    color: #ffffff;
+    display: block;
+}
+
+.reward-item input {
+    font-size: 18px;
+    color: #000000;
+    background-color: #ffffff;
+    border: 2px solid #39ff14;
+    border-radius: 5px;
+    padding: 5px;
+    width: 70%;
+    text-align: center;
+    margin-top: 5px;
 }

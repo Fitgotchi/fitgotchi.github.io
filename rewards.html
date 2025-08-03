@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Recompensas Diarias</title>
+  <link rel="stylesheet" href="rewards.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet" />
+</head>
+<body>
+  <div class="reward-container">
+    <h1>✨ Recompensas Diarias</h1>
+
+    <div id="missions-list"></div>
+
+    <div class="chest-section">
+      <h2>🎁 Cofre Diario</h2>
+      <div id="daily-chest" class="chest locked" title="Completa todas las misiones para abrir">🔒</div>
+      <p id="chest-status">Completa todas las misiones para abrir el cofre</p>
+    </div>
+
+    <div class="freebies">
+      <h2>🎉 Gratis Hoy</h2>
+      <button class="free-reward" id="claim-free">🎊 Reclamar 10 FitCoins</button>
+    </div>
+
+    <button class="button" id="back-button">⬅ Volver</button>
+  </div>
+
+  <script src="rewards.js"></script>
+</body>
+</html>

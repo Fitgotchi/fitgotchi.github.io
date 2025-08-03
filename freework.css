@@ -1,239 +1,357 @@
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Poppins:wght@400;700&display=swap');
+
 @keyframes gradientAnimation {
-    0% {
-        background-position: 0% 0%;
-    }
-    50% {
-        background-position: 100% 100%;
-    }
-    100% {
-        background-position: 0% 0%;
-    }
+  0% { background-position: 0% 0%; }
+  50% { background-position: 100% 100%; }
+  100% { background-position: 0% 0%; }
+}
+
+@keyframes float {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+  100% { transform: translateY(0); }
+}
+
+@keyframes pulseBar {
+  from { filter: brightness(1); }
+  to { filter: brightness(1.4); }
 }
 
 body {
-    font-family: Arial, sans-serif;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    background: linear-gradient(135deg, #036801, #1ba802, #6f01c4, #54015d, #01c829, #6e02c1);
-    background-size: 200% 200%;
-    animation: gradientAnimation 30s ease infinite;
-    color: #ffffff;
-    margin: 0;
-    padding: 0;
-    height: 150vh;
-    text-align: center;
+  font-family: 'Poppins', sans-serif;
+  background: linear-gradient(135deg, #00cc22, #c900d0, #a4016b, #015d21, #01c829, #df5600);
+  background-size: 250% 240%;
+  animation: gradientAnimation 60s ease infinite;
+  color: #ffffff;
+  text-align: center;
+  margin: 0;
+  padding-bottom: 80px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
+.app-title {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 2.4vh;
+  color: #39ff14;
+  margin: 20px 0;
+  text-shadow: 0 0 10px #39ff14;
+}
+
+/* Alertas flotantes */
+#fitgotchi-alert {
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #000000ee;
+  color: #39ff14;
+  padding: 10px 20px;
+  border: 2px solid #39ff14;
+  border-radius: 8px;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 12px;
+  box-shadow: 0 0 10px #39ff14;
+  z-index: 999;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.4s ease;
+  user-select: none;
+}
+
+#fitgotchi-alert.show {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* Contenedor principal */
 .container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    width: 90%;
-    margin: 0 auto;
-    padding: 20px;
-    border-radius: 10px;
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 24px;
+  background-color: rgba(0, 0, 0, 0.85);
+  border-radius: 12px;
+  box-shadow: 0 0 15px #39ff14cc;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
-h1 {
-    color: #39ff14;
-    font-size: 2.5em;
-    margin-bottom: 20px;
+/* Títulos */
+h1, .app-title {
+  font-family: 'Press Start 2P', monospace;
+  color: #39ff14;
+  text-shadow: 0 0 12px #39ff14;
+  letter-spacing: 0.12em;
 }
 
-.workout-options, .intensity-options, .timer-container, .rewards {
-    margin: 20px 0;
-}
-
-label {
-    font-size: 1.2em;
-    color: #ffffff;
-    margin-right: 10px;
-}
-
-select {
-    font-size: 1em;
-    padding: 5px;
-    border: 2px solid #39ff14;
-    border-radius: 5px;
-    background-color: #282c34;
-    color: #ffffff;
-}
-
-#time-display {
-    font-size: 2.5em;
-    color: #39ff14;
-    text-align: center;
-    line-height: 200px;
-    margin: 0;
-    margin-bottom: 10px;
-}
-
-button {
-    font-size: 16px;
-    background-color: #282c34;
-    border: 2px solid #39ff14;
-    color: #ffffff;
-    padding: 10px 20px;
-    cursor: pointer;
-    margin: 10px;
-    border-radius: 5px;
-    transition: background-color 0.3s, color 0.3s;
-}
-
-button:hover {
-    background-color: #39ff14;
-    color: #000000;
-}
-
-button:focus {
-    outline: none;
-    background-color: #8f00ff;
-    color: #ffffff;
-}
-
-.routine-builder {
-    margin: 20px 0;
-    text-align: center;
-}
-
-.routine-builder label,
-.routine-builder input {
-    display: block;
-    margin: 10px auto;
-    width: 80%;
-}
-
-.routine-builder input {
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    box-sizing: border-box;
-}
-
-.routine-list ul {
-    list-style-type: none;
-    padding: 0;
-    text-align: center;
-}
-
-.routine-list li {
-    background-color: #282c34;
-    color: #ffffff;
-    padding: 10px;
-    border-radius: 5px;
-    margin-bottom: 5px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.routine-list button {
-    background-color: transparent;
-    border: none;
-    color: #39ff14;
-    cursor: pointer;
-    font-size: 16px;
-}
-
-#start-routine-button {
-    margin-top: 10px;
-    background-color: #39ff14;
-    color: #000;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 16px;
-    display: block;
-    width: 80%;
-    margin: 20px auto;
-}
-
-#start-routine-button:hover {
-    background-color: #8f00ff;
-    color: #fff;
-}
-
-#custom-exercise-container {
-    display: none;
-    margin-top: 10px;
-}
-
-.nav-bar {
-    position: fixed;
-    bottom: 0;
-    width: 100%;
-    display: flex;
-    justify-content: space-around;
-    background-color: #282c34;
-    padding: 10px 0;
-}
-
-.nav-bar button {
-    background-color: transparent;
-    border: none;
-    color: #ffffff;
-    font-size: 18px;
-    cursor: pointer;
-}
-
-.nav-bar button:hover {
-    color: #39ff14;
-}
-
-.nav-bar button:focus {
-    outline: none;
-    color: #8f00ff;
-}
-
-.timer-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 300px;
-    position: relative;
-    margin-bottom: 20px;
-}
-
-.progress-bar-container {
-    position: relative;
-    width: 50vw;
-    height: 20px;
-    margin-top: 10px;
-    background-color: #282c34;
-    border-radius: 15px;
-    overflow: hidden;
-    margin-bottom: 10px;
+/* Barras de progreso */
+.progress-bar-container, .progress-container {
+  width: 80vw;
+  max-width: 600px;
+  height: 7vh;
+  background: #111;
+  border-radius: 20px;
+  overflow: hidden;
+  margin: 1.25rem auto;
+  box-shadow: inset 0 0 10px #39ff14aa;
 }
 
 .progress-bar {
-    height: 100%;
-    width: 0%;
-    background-color: #39ff14;
-    transition: width 1s ease-in-out;
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, #39ff14, #8f00ff);
+  border-radius: 20px;
+  transition: width 0.5s ease;
+  box-shadow: 0 0 12px #39ff14cc;
+  animation: pulseBar 2s infinite alternate;
+}
+
+.progress-bar[data-completed="true"] {
+  background-color: #ff6f00cc;
+  box-shadow: 0 0 15px #ff6f00cc;
+}
+
+/* Labels */
+label {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 12px;
+  color: #39ff14;
+  margin-right: 12px;
+  user-select: none;
+  letter-spacing: 0.06em;
+}
+
+/* Inputs y selects */
+select, input[type="number"], input[type="text"] {
+  font-family: 'Poppins', sans-serif;
+  font-size: 14px;
+  padding: 8px 12px;
+  border: 2px solid #39ff14;
+  border-radius: 8px;
+  background: #111;
+  color: #39ff14;
+  outline-offset: 2px;
+  width: 100%;
+  max-width: 320px;
+  box-sizing: border-box;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+select:focus, input[type="number"]:focus, input[type="text"]:focus {
+  border-color: #8f00ff;
+  box-shadow: 0 0 10px #8f00ff;
+}
+
+/* Botones */
+button {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 12px;
+  background-color: #111;
+  color: #ffffff;
+  border: 2px solid #8f00ff;
+  padding: 12px 16px;
+  margin: 6px;
+  border-radius: 8px;
+  cursor: pointer;
+  box-shadow: 0 0 8px #8f00ff;
+  transition: all 0.2s ease;
+  text-transform: uppercase;
+  font-weight: 700;
+  user-select: none;
+}
+
+button:hover {
+  background-color: #8f00ff;
+  color: #000;
+  box-shadow: 0 0 15px #39ff14;
+}
+
+button:focus {
+  outline: none;
+  border-color: #39ff14;
+  box-shadow: 0 0 18px #39ff14;
+  background-color: #39ff14;
+  color: #000;
+}
+
+/* Lista de rutina */
+.routine-list {
+  margin-top: 28px;
+  width: 100%;
+  max-width: 420px;
+}
+
+.routine-list ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.routine-list li {
+  background: #111;
+  color: #39ff14;
+  padding: 12px 18px;
+  border-radius: 12px;
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: 'Poppins', sans-serif;
+  font-size: 14px;
+  letter-spacing: 0.07em;
+  cursor: default;
+  user-select: none;
+  transition: transform 0.25s ease, background-color 0.25s ease;
+}
+
+.routine-list li:hover {
+  background: #222;
+  transform: scale(1.07);
+  box-shadow: 0 0 12px #39ff14cc;
+}
+
+.routine-list button {
+  background: transparent;
+  border: none;
+  color: #39ff14;
+  cursor: pointer;
+  font-size: 1.1rem;
+  padding: 0 8px;
+  user-select: none;
+}
+
+/* Botón iniciar rutina */
+#start-routine-button {
+  background-color: #39ff14;
+  color: #000;
+  width: 70%;
+  margin: 1.5rem auto 0;
+  display: block;
+  border-radius: 16px;
+  font-weight: 900;
+  box-shadow: 0 0 16px #39ff14cc;
+  transition: background-color 0.4s ease, box-shadow 0.4s ease;
+}
+
+#start-routine-button:hover {
+  background-color: #8f00ff;
+  color: #fff;
+  box-shadow: 0 0 24px #8f00ffcc;
+}
+
+/* Contenedor para ejercicio personalizado */
+#custom-exercise-container {
+  margin-top: 16px;
+  opacity: 1;
+  transition: opacity 0.4s ease;
+  width: 100%;
+  max-width: 320px;
+}
+
+/* Barra de navegación inferior */
+.nav-bar {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  background: #111;
+  display: flex;
+  justify-content: space-around;
+  padding: 10px;
+  border-top: 2px solid #39ff14;
+  z-index: 10;
+}
+
+.nav-bar button {
+  background: none;
+  border: none;
+  color: #39ff14;
+  font-size: 20px;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.nav-bar button:hover {
+  color: #9d00ff;
+}
+
+/* Temporizador */
+.timer-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 28px;
+  box-shadow: 0 0 14px #39ff14cc;
+  padding: 16px 24px;
+  border-radius: 18px;
+  background: #000;
+  width: fit-content;
+  min-width: 180px;
+  
 }
 
 #time-display {
-    font-size: 2em;
-    color: #39ff14;
-    text-align: center;
-    line-height: 30px;
-    margin: 0;
-    position: absolute;
-    top: 0;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 100%;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 2.2rem;
+  font-weight: 900;
+  color: #39ff14;
+  padding: 12px 20px;
+  border-radius: 16px;
+  background: #111;
+  text-shadow: 0 0 14px #39ff14;
+  user-select: none;
+  min-width: 180px;
+  
+  text-align: center;
 }
 
-.rewards {
-    margin-top: 10px;
+/* Rewards display */
+.rewards-display {
+  background: #111;
+  border-radius: 18px;
+  padding: 18px 28px;
+  width: fit-content;
+  margin: 0 auto 2.5rem;
+  color: #39ff14;
+  font-weight: 900;
+  letter-spacing: 0.12em;
+  box-shadow: 0 0 18px #39ff14cc;
+  user-select: none;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
 }
 
-.rewards p {
-    font-size: 1.2em;
+.rewards-display span {
+  font-size: 1.2rem;
+  font-family: 'Poppins', sans-serif;
+}
+
+/* Responsividad */
+@media (max-width: 480px) {
+  .container {
+    padding: 16px;
+    width: 95%;
+  }
+  .progress-bar-container,
+  .progress-container {
+    width: 95vw;
+  }
+  #start-routine-button {
+    width: 90%;
+  }
+  .routine-list {
+    max-width: 100%;
+  }
+  .nav-bar button {
+    font-size: 18px;
+  }
+  #time-display {
+    font-size: 1.8rem;
+    min-width: 140px;
+  }
+  .rewards-display span {
+    font-size: 1rem;
+  }
 }

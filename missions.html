@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>FitGotchi - Misiones</title>
+  <link rel="stylesheet" href="missions.css" />
+</head>
+<body>
+  <div class="container">
+    <h1>Misiones</h1>
+    <p>Completa misiones para ganar recompensas y subir de nivel.</p>
+
+    <ul id="missions-list">
+      <!-- Misiones cargadas por JS -->
+    </ul>
+
+    <div class="rewards-summary">
+      <h2>Recompensas acumuladas</h2>
+      <p>FitCoins: <span id="total-coins">0</span></p>
+      <p>Experiencia: <span id="total-exp">0</span></p>
+      <p>Calorías Quemadas: <span id="total-calories">0</span></p>
+    </div>
+  </div>
+
+  <nav class="nav-bar">
+    <button id="btn-home" aria-label="Ir a Home">Home</button>
+    <button id="btn-rutinas" aria-label="Ir a Rutinas">Rutinas</button>
+    <button id="btn-misiones" aria-label="Ir a Misiones">Misiones</button>
+    <button id="btn-tienda" aria-label="Ir a Tienda">Tienda</button>
+  </nav>
+  
+
+  <script src="missions.js"></script>
+</body>
+</html>

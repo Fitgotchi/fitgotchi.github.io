@@ -22,7 +22,7 @@ body {
     color: #ffffff;
     margin: 0;
     padding: 0;
-    height: 120vh;
+    height: 180vh;
     text-align: center;
 }
 
@@ -31,7 +31,6 @@ body {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    
     padding: 20px;
     box-sizing: border-box;
 }
@@ -83,6 +82,17 @@ button:disabled {
 button:hover:enabled {
     background-color: #8f00ff;
     transform: scale(1.05);
+}
+
+.map-container {
+    width: 100%;
+    max-width: 500px;
+    height: 300px;
+    margin: 20px 0;
+    border: 2px solid #39ff14;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 .progress {
